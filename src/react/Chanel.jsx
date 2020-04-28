@@ -5,7 +5,6 @@ import ListGroup from 'react-bootstrap/ListGroup';
 export default class Chanel extends React.Component {
   render() {
     const { data: { channels, currentChannelId } } = this.props;
-    console.log('Chanel -> render -> channels', channels, currentChannelId); // todo: remove
 
     return (
       <div className="chanels">

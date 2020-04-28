@@ -6,14 +6,17 @@ import Col from 'react-bootstrap/Col';
 
 import Chanel from './Chanel';
 
-export default (data) => {
+export default (initState, userName) => {
   const dom = (
-    <Row>
-      <Col md={3}>
-        <Chanel data={data} />
-      </Col>
-      <Col md={9}>messages</Col>
-    </Row>
+    <>
+      <Row />
+      <Row>
+        <Col md={3}>
+          <Chanel data={initState} />
+        </Col>
+        <Col md={9}>{userName}</Col>
+      </Row>
+    </>
   );
 
   ReactDOM.render(

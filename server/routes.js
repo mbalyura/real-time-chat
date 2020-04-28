@@ -32,6 +32,13 @@ const buildState = (defaultState) => {
 export default (app, io, defaultState = {}) => {
   const state = buildState(defaultState);
 
+  io.on('connection', (socket) => {
+    console.log('\x1b[31m', '*** IO user connected ***');
+    socket.on('disconnect', () => {
+      console.log('\x1b[31m', '*** IO user disconnected ***');
+    });
+  });
+
   app
     .get('/', (_req, reply) => {
       reply.view('index.pug', { gon: state }); // ! механизм передачи данных с бекенда на фронтенд через html, который формируется на бекенде

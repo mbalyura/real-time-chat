@@ -36,10 +36,10 @@ const setUpStaticAssets = (app) => {
   });
 };
 
-const logger = { logger: { prettyPrint: { colorize: true } } };
 
-export default (options) => {
-  console.log('options', options); // !port 5000
+export default (options) => { // ! options: { port: '5000' }
+  const logger = { logger: { prettyPrint: { colorize: true } } };
+
   const app = fastify(logger);
 
   setUpViews(app);
