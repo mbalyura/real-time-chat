@@ -7,7 +7,7 @@ const getNextId = () => Number(_.uniqueId());
 const buildState = (defaultState) => {
   const generalChannelId = getNextId();
   const randomChannelId = getNextId();
-  const state = {
+  const state = { //! initstate !!!
     channels: [
       { id: generalChannelId, name: 'general', removable: false },
       { id: randomChannelId, name: 'random', removable: false },
@@ -34,8 +34,9 @@ export default (app, io, defaultState = {}) => {
 
   app
     .get('/', (_req, reply) => {
-      reply.view('index.pug', { gon: state });
+      reply.view('index.pug', { gon: state }); // ! механизм передачи данных с бекенда на фронтенд через html, который формируется на бекенде
     })
+
     .get('/api/v1/channels', (_req, reply) => {
       const resources = state.channels.map((c) => ({
         type: 'channels',
@@ -47,6 +48,7 @@ export default (app, io, defaultState = {}) => {
       };
       reply.send(response);
     })
+
     .post('/api/v1/channels', (req, reply) => {
       const { data: { attributes: { name } } } = req.body;
       const channel = {
@@ -67,6 +69,7 @@ export default (app, io, defaultState = {}) => {
       reply.send(data);
       io.emit('newChannel', data);
     })
+
     .delete('/api/v1/channels/:id', (req, reply) => {
       const channelId = Number(req.params.id);
       state.channels = state.channels.filter((c) => c.id !== channelId);
@@ -82,6 +85,7 @@ export default (app, io, defaultState = {}) => {
       reply.send(data);
       io.emit('removeChannel', data);
     })
+
     .patch('/api/v1/channels/:id', (req, reply) => {
       const channelId = Number(req.params.id);
       const channel = state.channels.find((c) => c.id === channelId);
@@ -99,6 +103,7 @@ export default (app, io, defaultState = {}) => {
       reply.send(data);
       io.emit('renameChannel', data);
     })
+
     .get('/api/v1/channels/:channelId/messages', (req, reply) => {
       const messages = state.messages.filter((m) => m.channelId === Number(req.params.channelId));
       const resources = messages.map((m) => ({
@@ -111,6 +116,7 @@ export default (app, io, defaultState = {}) => {
       };
       reply.send(response);
     })
+
     .post('/api/v1/channels/:channelId/messages', (req, reply) => {
       const { data: { attributes } } = req.body;
       const message = {

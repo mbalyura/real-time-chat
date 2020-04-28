@@ -3,11 +3,11 @@
 import 'core-js/stable';
 import 'regenerator-runtime/runtime';
 
-import path from 'path';
-import Pug from 'pug';
+import path from 'path'; // постороение путей
+import Pug from 'pug'; // шаблонизатор
 import socket from 'socket.io';
-import fastify from 'fastify';
-import pointOfView from 'point-of-view';
+import fastify from 'fastify'; // сервер
+import pointOfView from 'point-of-view'; // Templates rendering plugin //add to reply interface view method for manage view engines that can be used to render templates responses
 import fastifyStatic from 'fastify-static';
 // import _ from 'lodash';
 import addRoutes from './routes.js';
@@ -37,6 +37,7 @@ const setUpStaticAssets = (app) => {
 };
 
 export default (options) => {
+  console.log('options', options); // !port 5000
   const app = fastify();
 
   setUpViews(app);
