@@ -51,7 +51,12 @@ class NewMessageForm extends React.Component {
         {userName}
         :
         <Form className="" onSubmit={this.handleAddMessage}>
-          <Form.Control type="text" value={text} onChange={this.handleUpdateNewMessageText} />
+          <Form.Control
+            onChange={this.handleUpdateNewMessageText}
+            value={text}
+            placeholder="type message here"
+            type="text"
+          />
         </Form>
       </div>
     );

@@ -26,7 +26,7 @@ const messages = (state = [], action) => {
 const channels = (state = [], action) => {
   switch (action.type) {
     case 'CHANNEL_ADD': {
-      return [action.payload.channel, ...state];
+      return [...state, action.payload.channel];
     }
     default:
       return state;
