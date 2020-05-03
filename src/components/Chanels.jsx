@@ -1,8 +1,8 @@
-/* eslint-disable react/prefer-stateless-function */
 import React from 'react';
+
 import ListGroup from 'react-bootstrap/ListGroup';
 
-export default class Chanel extends React.Component {
+export default class Chanels extends React.Component {
   render() {
     const { data: { channels, currentChannelId } } = this.props;
 
