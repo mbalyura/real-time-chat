@@ -9,8 +9,6 @@ const mapStateToProps = (state) => {
   return props;
 };
 
-const actionCreators = {};
-
 class Messages extends React.Component {
   render() {
     const { messages, currentChannelId } = this.props;
@@ -30,4 +28,4 @@ class Messages extends React.Component {
   }
 }
 
-export default connect(mapStateToProps, actionCreators)(Messages);
+export default connect(mapStateToProps, null)(Messages);

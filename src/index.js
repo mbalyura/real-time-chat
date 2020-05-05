@@ -7,7 +7,6 @@ import '../assets/application.scss';
 import faker from 'faker';
 // import gon from 'gon'; //? not need ???
 import cookies from 'js-cookie';
-import io from 'socket.io-client';
 import render from './index.jsx';
 
 
@@ -16,7 +15,7 @@ if (process.env.NODE_ENV !== 'production') {
 }
 
 console.log('it works!');
-console.log('gon', window.gon);
+console.log('server state: ', window.gon);
 
 // * begin
 // const randomUserName = localStorage.getItem('userName') || faker.internet.userName();
@@ -24,4 +23,4 @@ console.log('gon', window.gon);
 const randomUserName = cookies.get('userName') || faker.internet.userName();
 cookies.set('userName', randomUserName);
 
-render(io, window.gon, randomUserName);
+render(window.gon, randomUserName);

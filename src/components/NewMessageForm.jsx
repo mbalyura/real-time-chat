@@ -36,7 +36,7 @@ class NewMessageForm extends React.Component {
   };
 
   handleUpdateNewMessageText = (e) => {
-    const { updateNewMessageText } = this.props;
+    const { updateNewMessageText } = this.props; // ? this.setState ? local state maybe?
     updateNewMessageText(e.target.value);
   };
 

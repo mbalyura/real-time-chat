@@ -17,7 +17,6 @@ const messages = (state = [], action) => {
   console.log('messages -> action', action);
 
   switch (action.type) {
-    case 'MESSAGE_ADD_SUCCESS':
     case 'MESSAGE_ADD_SOCKET':
     {
       return [...state, action.payload.message];

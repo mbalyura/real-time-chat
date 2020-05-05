@@ -7,11 +7,10 @@ import thunk from 'redux-thunk';
 import logger from 'redux-logger';
 
 import App from './components/App.jsx';
-import { addMessageOnSocket } from './actions';
 import reducers from './reducers/index.js';
 import NameContext from './context';
 
-export default (io, preloadedState, userName) => {
+export default (preloadedState, userName) => {
   const middlewares = [thunk];
   if (process.env.NODE_ENV !== 'production') {
     middlewares.push(logger);
@@ -25,13 +24,6 @@ export default (io, preloadedState, userName) => {
       window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__(),
     ),
   );
-
-  const socket = io();
-  socket.on('newMessage', (response) => {
-    console.log('message', response);
-    console.warn('*** IO new message ***');
-    addMessageOnSocket('test');
-  });
 
   ReactDOM.render(
     <Provider store={store}>
