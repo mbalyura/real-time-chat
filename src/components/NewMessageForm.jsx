@@ -22,7 +22,6 @@ const actionCreators = {
 class NewMessageForm extends React.Component {
   static contextType = NameContext;
 
-
   handleAddMessage = (e) => {
     e.preventDefault();
     const { userName } = this.context;

@@ -30,8 +30,6 @@ export const addMessageRequest = createAction('MESSAGE_ADD_REQUEST');
 export const addMessageSuccess = createAction('MESSAGE_ADD_SUCCESS');
 export const addMessageFailure = createAction('MESSAGE_ADD_FAILURE');
 
-// export const addMessageOnSocket = createAction('MESSAGE_ADD_SOCKET');
-
 export const addMessageOnSocket = (message) => ({
   type: 'MESSAGE_ADD_SOCKET',
   payload: {
@@ -39,8 +37,8 @@ export const addMessageOnSocket = (message) => ({
   },
 });
 
-export const addChannel = (channel) => ({
-  type: 'CHANNEL_ADD',
+export const addChannelOnSocket = (channel) => ({
+  type: 'CHANNEL_ADD_SOCKET',
   payload: {
     channel,
   },
@@ -86,6 +84,18 @@ export const addMessage = ({ text, userName, channelId }) => async (dispatch) =>
     dispatch(addMessageSuccess());
   } catch (err) {
     dispatch(addMessageFailure());
+    throw err;
+  }
+};
+
+export const addChannel = ({ name }) => async (dispatch) => {
+  dispatch(addChannelRequest());
+  try {
+    const data = { attributes: { name } };
+    await axios.post(routes.channelsPath(), { data });
+    dispatch(addChannelSuccess());
+  } catch (err) {
+    dispatch(addChannelFailure());
     throw err;
   }
 };

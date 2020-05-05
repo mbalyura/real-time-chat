@@ -21,7 +21,7 @@ const actionCreators = {
   switchChannel: actions.switchChannel,
 };
 
-class Chanels extends React.Component {
+class Channels extends React.Component {
   handleSwitchChannel = (id) => () => {
     const { switchChannel } = this.props;
     switchChannel(id);
@@ -29,7 +29,10 @@ class Chanels extends React.Component {
 
   handleAddChannel = () => {
     const { addChannel } = this.props;
-    addChannel({ });
+    const channel = {
+      name: 'new channel',
+    };
+    addChannel(channel);
   }
 
   render() {
@@ -38,7 +41,7 @@ class Chanels extends React.Component {
     return (
       <>
         <Row className="chanels-menu mx-auto mb-3">
-          <h4 className="my-2">Chanels</h4>
+          <h4 className="my-2">Channels</h4>
           <Button onClick={this.handleAddChannel} className="ml-auto"><span>+</span></Button>
         </Row>
         <Row className="chanels">
@@ -52,7 +55,6 @@ class Chanels extends React.Component {
                   className="w-100"
                 >
                   {name}
-                  <span>x</span>
                 </ListGroup.Item>
               ))}
             </ListGroup>
@@ -63,4 +65,4 @@ class Chanels extends React.Component {
   }
 }
 
-export default connect(mapStateToProps, actionCreators)(Chanels);
+export default connect(mapStateToProps, actionCreators)(Channels);

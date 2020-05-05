@@ -14,8 +14,6 @@ const text = (state = '', action) => {
 };
 
 const messages = (state = [], action) => {
-  console.log('messages -> action', action);
-
   switch (action.type) {
     case 'MESSAGE_ADD_SOCKET':
     {
@@ -28,7 +26,7 @@ const messages = (state = [], action) => {
 
 const channels = (state = [], action) => {
   switch (action.type) {
-    case 'CHANNEL_ADD': {
+    case 'CHANNEL_ADD_SOCKET': {
       return [...state, action.payload.channel];
     }
     default:
