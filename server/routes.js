@@ -7,7 +7,7 @@ const getNextId = () => Number(_.uniqueId());
 const buildState = (defaultState) => {
   const generalChannelId = getNextId();
   const randomChannelId = getNextId();
-  const state = { //! initstate !!!
+  const state = {
     channels: [
       { id: generalChannelId, name: 'general', removable: false },
       { id: randomChannelId, name: 'random', removable: false },

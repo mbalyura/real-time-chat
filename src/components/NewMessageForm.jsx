@@ -1,6 +1,5 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import _ from 'lodash';
 
 import Form from 'react-bootstrap/Form';
 
@@ -31,7 +30,6 @@ class NewMessageForm extends React.Component {
     const message = {
       text,
       userName,
-      id: _.uniqueId(),
       channelId,
     };
     addMessage(message);

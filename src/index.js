@@ -24,6 +24,4 @@ console.log('gon', window.gon);
 const randomUserName = cookies.get('userName') || faker.internet.userName();
 cookies.set('userName', randomUserName);
 
-
-render(window.gon, randomUserName);
-io();
+render(io, window.gon, randomUserName);

@@ -1,5 +1,5 @@
 import React from 'react';
 
-const NameContext = React.createContext('default');
+const NameContext = React.createContext();
 
 export default NameContext;

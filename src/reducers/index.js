@@ -5,7 +5,7 @@ const text = (state = '', action) => {
     case 'TEXT_UPDATE': {
       return action.payload.text;
     }
-    case 'MESSAGE_ADD': {
+    case 'MESSAGE_ADD_REQUEST': {
       return '';
     }
     default:
@@ -14,8 +14,12 @@ const text = (state = '', action) => {
 };
 
 const messages = (state = [], action) => {
+  console.log('messages -> action', action);
+
   switch (action.type) {
-    case 'MESSAGE_ADD': {
+    case 'MESSAGE_ADD_SUCCESS':
+    case 'MESSAGE_ADD_SOCKET':
+    {
       return [...state, action.payload.message];
     }
     default:
