@@ -1,14 +1,11 @@
-/* eslint-disable import/no-extraneous-dependencies */
 import 'core-js/stable';
 import 'regenerator-runtime/runtime';
-
 import '../assets/application.scss';
-
-import faker from 'faker';
+import { internet } from 'faker/lib/internet';
 // import gon from 'gon'; //? not need ???
 import cookies from 'js-cookie';
-import render from './index.jsx';
 
+import run from './index.jsx';
 
 if (process.env.NODE_ENV !== 'production') {
   localStorage.debug = 'chat:*';
@@ -20,7 +17,9 @@ console.log('server state: ', window.gon);
 // * begin
 // const randomUserName = localStorage.getItem('userName') || faker.internet.userName();
 // localStorage.setItem('userName', randomUserName);
-const randomUserName = cookies.get('userName') || faker.internet.userName();
+const randomUserName = cookies.get('userName') || internet.userName();
 cookies.set('userName', randomUserName);
 
-render(window.gon, randomUserName);
+const preloadedState = window.gon;
+
+run(preloadedState, randomUserName);

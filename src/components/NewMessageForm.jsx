@@ -2,6 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 
 import Form from 'react-bootstrap/Form';
+import InputGroup from 'react-bootstrap/InputGroup';
 
 import * as actions from '../actions/index.js';
 import NameContext from '../context';
@@ -44,16 +45,22 @@ class NewMessageForm extends React.Component {
 
     const { userName } = this.context;
     return (
-      <div className="form-container mt-auto mb-4 w-100">
-        {userName}
-        :
+      <div className="form-container mt-auto mb-5 w-100">
         <Form className="" onSubmit={this.handleAddMessage}>
-          <Form.Control
-            onChange={this.handleUpdateNewMessageText}
-            value={text}
-            placeholder="type message here"
-            type="text"
-          />
+          <InputGroup>
+            <InputGroup.Prepend>
+              <InputGroup.Text id="inputGroupPrepend">
+                {userName}
+                :
+              </InputGroup.Text>
+            </InputGroup.Prepend>
+            <Form.Control
+              onChange={this.handleUpdateNewMessageText}
+              value={text}
+              placeholder="type message here"
+              type="text"
+            />
+          </InputGroup>
         </Form>
       </div>
     );
