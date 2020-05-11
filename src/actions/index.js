@@ -58,30 +58,30 @@ export const switchChannel = (id) => ({
   },
 });
 
-export const updateNewMessageText = (text) => ({
-  type: 'TEXT_UPDATE',
-  payload: {
-    text,
-  },
-});
+// export const updateNewMessageText = (text) => ({
+//   type: 'TEXT_UPDATE',
+//   payload: {
+//     text,
+//   },
+// });
 
-export const fetchMessages = (channelId) => async (dispatch) => {
-  dispatch(fetchMessagesRequest());
-  try {
-    const response = await axios.get(routes.channelMessagesPath(channelId));
-    dispatch(fetchMessagesSuccess({ messages: response.data }));
-  } catch (err) {
-    dispatch(fetchMessagesFailure());
-    throw err;
-  }
-};
+// export const fetchMessages = (channelId) => async (dispatch) => {
+//   dispatch(fetchMessagesRequest());
+//   try {
+//     const response = await axios.get(routes.channelMessagesPath(channelId));
+//     dispatch(fetchMessagesSuccess({ messages: response.data }));
+//   } catch (err) {
+//     dispatch(fetchMessagesFailure());
+//     throw err;
+//   }
+// };
 
 export const addMessage = ({ text, userName, channelId }) => async (dispatch) => {
   dispatch(addMessageRequest());
   try {
     const data = { attributes: { text, userName } };
     await axios.post(routes.channelMessagesPath(channelId), { data });
-    dispatch(addMessageSuccess());
+    dispatch(addMessageSuccess()); // ? no payload ??!
   } catch (err) {
     dispatch(addMessageFailure());
     throw err;

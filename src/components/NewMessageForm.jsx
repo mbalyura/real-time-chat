@@ -9,7 +9,6 @@ import NameContext from '../context';
 
 const mapStateToProps = (state) => {
   const props = {
-    text: state.text,
     channelId: state.currentChannelId,
   };
   return props;
@@ -23,21 +22,31 @@ const actionCreators = {
 class NewMessageForm extends React.Component {
   static contextType = NameContext;
 
+  constructor() {
+    super();
+    this.state = { text: '' };
+    this.textInput = React.createRef();
+  }
+
+  componentDidMount() {
+    this.textInput.current.focus();
+  }
+
+  handleChange = ({ target }) => {
+    this.setState({ text: target.value });
+  }
+
   handleAddMessage = (e) => {
     e.preventDefault();
     const { userName } = this.context;
-    const { addMessage, text, channelId } = this.props;
+    const { addMessage, channelId } = this.props;
+    const { text } = this.state;
     const message = {
       text,
       userName,
       channelId,
     };
     addMessage(message);
-  };
-
-  handleUpdateNewMessageText = (e) => {
-    const { updateNewMessageText } = this.props; // ? this.setState ? local state maybe?
-    updateNewMessageText(e.target.value);
   };
 
   render() {
@@ -55,10 +64,11 @@ class NewMessageForm extends React.Component {
               </InputGroup.Text>
             </InputGroup.Prepend>
             <Form.Control
-              onChange={this.handleUpdateNewMessageText}
+              onChange={this.handleChange}
               value={text}
               placeholder="type message here"
               type="text"
+              ref={this.textInput}
             />
           </InputGroup>
         </Form>
