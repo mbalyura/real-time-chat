@@ -1,7 +1,7 @@
 // @ts-check
 
 // const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-// const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
+const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
 
 const isProduction = process.env.NODE_ENV === 'production';
 // const isDevelopment = !isProduction;
@@ -24,7 +24,7 @@ module.exports = {
   },
   plugins: [
     // new MiniCssExtractPlugin(),
-    // new BundleAnalyzerPlugin(),
+    new BundleAnalyzerPlugin(),
   ],
   module: {
     rules: [

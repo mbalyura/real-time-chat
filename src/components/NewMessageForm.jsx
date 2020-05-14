@@ -47,11 +47,11 @@ class NewMessageForm extends React.Component {
       channelId,
     };
     addMessage(message);
+    // this.setState({ text: '' });
   };
 
   render() {
-    const { text } = this.props;
-
+    const { text } = this.state;
     const { userName } = this.context;
     return (
       <div className="form-container mt-auto mb-5 w-100">

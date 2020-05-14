@@ -5,7 +5,8 @@ import io from 'socket.io-client';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 
-import Channels from './Channels';
+import ChannelsList from './ChannelsList';
+import ChannelsMenu from './ChannelsMenu';
 import Messages from './Messages';
 import NewMessageForm from './NewMessageForm';
 
@@ -33,15 +34,20 @@ class App extends React.Component {
 
   render() {
     return (
-      <Row className="h-100">
-        <Col className="aside" xs={3}>
-          <Channels />
-        </Col>
-        <Col className="section d-flex flex-column">
-          <Messages />
-          <NewMessageForm />
-        </Col>
-      </Row>
+      <>
+        <Row className="">
+          <ChannelsMenu />
+        </Row>
+        <Row className="h-75">
+          <Col className="" xs={3}>
+            <ChannelsList />
+          </Col>
+          <Col className="section d-flex flex-column">
+            <Messages />
+            <NewMessageForm />
+          </Col>
+        </Row>
+      </>
     );
   }
 }

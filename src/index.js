@@ -1,7 +1,7 @@
 import 'core-js/stable';
 import 'regenerator-runtime/runtime';
 import '../assets/application.scss';
-import { internet } from 'faker/lib/internet';
+import { internet } from 'faker/locale/en';
 // import gon from 'gon'; //? not need ???
 import cookies from 'js-cookie';
 
