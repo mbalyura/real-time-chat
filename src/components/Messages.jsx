@@ -14,7 +14,7 @@ class Messages extends React.Component {
     const { messages, currentChannelId } = this.props;
     const currentMessages = messages.filter(({ channelId }) => channelId === currentChannelId);
     return (
-      <div className="messages-container overflow-auto bg-light text-dark p-3 h-100">
+      <div className="messages-container overflow-auto bg-light text-dark p-3 mb-3 h-100">
         {currentMessages
           && currentMessages.map(({ text, id, userName }) => (
             <div key={id}>

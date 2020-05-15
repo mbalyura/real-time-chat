@@ -15,7 +15,7 @@ const mapStateToProps = (state) => {
 };
 
 const actionCreators = {
-  updateNewMessageText: actions.updateNewMessageText,
+  // updateNewMessageText: actions.updateNewMessageText, // !?!
   addMessage: actions.addMessage,
 };
 
@@ -47,14 +47,14 @@ class NewMessageForm extends React.Component {
       channelId,
     };
     addMessage(message);
-    // this.setState({ text: '' });
+    this.setState({ text: '' }); // ?!
   };
 
   render() {
     const { text } = this.state;
     const { userName } = this.context;
     return (
-      <div className="form-container mt-auto mb-5 w-100">
+      <div className="form-container mt-auto w-100">
         <Form className="" onSubmit={this.handleAddMessage}>
           <InputGroup>
             <InputGroup.Prepend>

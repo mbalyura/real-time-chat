@@ -2,8 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import io from 'socket.io-client';
 
-import Row from 'react-bootstrap/Row';
-import Col from 'react-bootstrap/Col';
+import { Row, Col } from 'react-bootstrap';
 
 import ChannelsList from './ChannelsList';
 import ChannelsMenu from './ChannelsMenu';
@@ -15,12 +14,21 @@ import * as actions from '../actions/index.js';
 const actionCreators = {
   addMessageOnSocket: actions.addMessageOnSocket,
   addChannelOnSocket: actions.addChannelOnSocket,
+  renameChannelOnSocket: actions.renameChannelOnSocket,
+  removeChannelOnSocket: actions.removeChannelOnSocket,
 };
 
 class App extends React.Component {
   componentDidMount() {
-    const { addMessageOnSocket, addChannelOnSocket } = this.props;
+    const {
+      addMessageOnSocket,
+      addChannelOnSocket,
+      renameChannelOnSocket,
+      removeChannelOnSocket,
+    } = this.props;
+
     const socket = io();
+
     socket
       .on('newMessage', ({ data: { attributes } }) => {
         console.warn('*** IO new message ***');
@@ -29,20 +37,28 @@ class App extends React.Component {
       .on('newChannel', ({ data: { attributes } }) => {
         console.warn('*** IO new channel ***');
         addChannelOnSocket(attributes);
+      })
+      .on('renameChannel', ({ data: { attributes } }) => {
+        console.warn('*** IO rename channel ***');
+        renameChannelOnSocket(attributes);
+      })
+      .on('removeChannel', ({ data: { id } }) => {
+        console.warn('*** IO remove channel ***');
+        removeChannelOnSocket(id);
       });
   }
 
   render() {
     return (
       <>
-        <Row className="">
+        <Row className="mt-5">
           <ChannelsMenu />
         </Row>
         <Row className="h-75">
-          <Col className="" xs={3}>
+          <Col className="" md={3}>
             <ChannelsList />
           </Col>
-          <Col className="section d-flex flex-column">
+          <Col className="section d-flex flex-column" md={9}>
             <Messages />
             <NewMessageForm />
           </Col>
