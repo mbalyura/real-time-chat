@@ -17,32 +17,29 @@ const actionCreators = {
   switchChannel: actions.switchChannel,
 };
 
-class ChannelsList extends React.Component {
-  handleSwitchChannel = (id) => () => {
-    const { switchChannel } = this.props;
+const ChannelsList = (props) => {
+  const { channels, currentChannelId, switchChannel } = props;
+
+  const handleSwitchChannel = (id) => () => {
     switchChannel(id);
-  }
+  };
 
-  render() {
-    const { channels, currentChannelId } = this.props;
-
-    return (
-      <div className="chanels-list w-100">
-        <ListGroup>
-          {channels.map(({ name, id }) => (
-            <ListGroup.Item
-              onClick={this.handleSwitchChannel(id)}
-              active={id === currentChannelId}
-              key={id}
-              className="w-100"
-            >
-              {name}
-            </ListGroup.Item>
-          ))}
-        </ListGroup>
-      </div>
-    );
-  }
-}
+  return (
+    <div className="chanels-list w-100">
+      <ListGroup>
+        {channels.map(({ name, id }) => (
+          <ListGroup.Item
+            onClick={handleSwitchChannel(id)}
+            active={id === currentChannelId}
+            key={id}
+            className="w-100"
+          >
+            {name}
+          </ListGroup.Item>
+        ))}
+      </ListGroup>
+    </div>
+  );
+};
 
 export default connect(mapStateToProps, actionCreators)(ChannelsList);

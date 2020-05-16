@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { useContext, useEffect, useRef } from 'react';
 import { connect } from 'react-redux';
+import { useFormik } from 'formik';
 
 import Form from 'react-bootstrap/Form';
 import InputGroup from 'react-bootstrap/InputGroup';
@@ -15,66 +16,52 @@ const mapStateToProps = (state) => {
 };
 
 const actionCreators = {
-  // updateNewMessageText: actions.updateNewMessageText, // !?!
   addMessage: actions.addMessage,
 };
 
-class NewMessageForm extends React.Component {
-  static contextType = NameContext;
+const NewMessageForm = (props) => {
+  const userName = useContext(NameContext);
 
-  constructor() {
-    super();
-    this.state = { text: '' };
-    this.textInput = React.createRef();
-  }
+  const textInput = useRef();
 
-  componentDidMount() {
-    this.textInput.current.focus();
-  }
+  useEffect(() => {
+    textInput.current.focus();
+  });
 
-  handleChange = ({ target }) => {
-    this.setState({ text: target.value });
-  }
+  const formik = useFormik({
+    onSubmit: ({ text }) => {
+      const { addMessage, channelId } = props;
+      const message = {
+        text,
+        userName,
+        channelId,
+      };
+      addMessage(message);
+    },
+    initialValues: { text: '' },
+  });
 
-  handleAddMessage = (e) => {
-    e.preventDefault();
-    const { userName } = this.context;
-    const { addMessage, channelId } = this.props;
-    const { text } = this.state;
-    const message = {
-      text,
-      userName,
-      channelId,
-    };
-    addMessage(message);
-    this.setState({ text: '' }); // ?!
-  };
-
-  render() {
-    const { text } = this.state;
-    const { userName } = this.context;
-    return (
-      <div className="form-container mt-auto w-100">
-        <Form className="" onSubmit={this.handleAddMessage}>
-          <InputGroup>
-            <InputGroup.Prepend>
-              <InputGroup.Text id="inputGroupPrepend">
-                {userName}
-                :
-              </InputGroup.Text>
-            </InputGroup.Prepend>
-            <Form.Control
-              onChange={this.handleChange}
-              value={text}
-              placeholder="type message here"
-              type="text"
-              ref={this.textInput}
-            />
-          </InputGroup>
-        </Form>
-      </div>
-    );
-  }
-}
+  return (
+    <div className="form-container mt-auto w-100">
+      <Form className="" onSubmit={formik.handleSubmit}>
+        <InputGroup>
+          <InputGroup.Prepend>
+            <InputGroup.Text id="inputGroupPrepend">
+              {userName}
+              :
+            </InputGroup.Text>
+          </InputGroup.Prepend>
+          <Form.Control
+            onChange={formik.handleChange}
+            value={formik.values.text}
+            name="text"
+            placeholder="type message here"
+            ref={textInput}
+          />
+        </InputGroup>
+      </Form>
+    </div>
+  );
+};
 
 export default connect(mapStateToProps, actionCreators)(NewMessageForm);

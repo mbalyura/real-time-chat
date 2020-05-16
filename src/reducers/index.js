@@ -1,4 +1,4 @@
-import { combineReducers } from 'redux';
+// import { combineReducers } from 'redux';
 
 // const text = (state = '', action) => {
 //   switch (action.type) {
@@ -62,9 +62,15 @@ const currentChannelId = (state = 1, action) => {
   }
 };
 
-export default combineReducers({
-  // text,
+// export default combineReducers({
+//   // text,
+//   channels,
+//   messages,
+//   currentChannelId,
+// });
+
+export default {
   channels,
   messages,
   currentChannelId,
-});
+};

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { connect } from 'react-redux';
 
 import { Row, Col, Button } from 'react-bootstrap';
@@ -21,82 +21,75 @@ const actionCreators = {
   removeChannel: actions.removeChannel,
 };
 
-class ChannelsMenu extends React.Component {
-  constructor() {
-    super();
-    this.state = { modalType: null };
-  }
+const ChannelsMenu = (props) => {
+  const {
+    channels,
+    currentChannelId,
+    addChannel,
+    renameChannel,
+    removeChannel,
+  } = props;
 
-  hideModal = () => {
-    this.setState({ modalType: null });
+  const [modal, setModal] = useState({ type: null });
+
+  const hideModal = () => {
+    setModal({ type: null });
   };
 
-  showModal = (modalType) => () => {
-    this.setState({ modalType });
+  const showModal = (type) => () => {
+    setModal({ type });
   };
 
-  updateChannels = (name) => {
-    const { modalType } = this.state;
-    const {
-      addChannel,
-      renameChannel,
-      removeChannel,
-      currentChannelId,
-    } = this.props;
-
+  const updateChannels = (name) => {
     const mapModalTypeToActions = {
       adding: () => addChannel({ name }),
       renaming: () => renameChannel({ name, id: currentChannelId }),
       removing: () => removeChannel({ id: currentChannelId }),
     };
 
-    mapModalTypeToActions[modalType]();
-    this.hideModal();
+    mapModalTypeToActions[modal.type]();
+    hideModal();
   };
 
-  renderModal = () => {
-    const { modalType } = this.state;
-    const { channels, currentChannelId } = this.props;
-    const currentChannel = channels.find(({ id }) => id === currentChannelId);
-    if (!modalType) return null;
-    const Modal = getModal(modalType);
+  const currentChannel = channels.find(({ id }) => id === currentChannelId);
+
+  const renderModal = () => {
+    if (!modal.type) return null;
+    const Modal = getModal(modal.type);
     return (
       <Modal
-        updateChannels={this.updateChannels}
-        hideModal={this.hideModal}
+        updateChannels={updateChannels}
+        hideModal={hideModal}
         currentChannel={currentChannel}
       />
     );
   };
 
-  render() {
-    const { channels, currentChannelId } = this.props;
-    const { name, removable } = channels.find(({ id }) => id === currentChannelId);
+  const { name, removable } = currentChannel;
 
-    return (
-      <>
-        <Col className="" md={3}>
-          <Row className="mx-auto mb-3">
-            <h4 className="my-2">Channels</h4>
-            <Button onClick={this.showModal('adding')} className="ml-auto"><span><GoPlus /></span></Button>
-          </Row>
-        </Col>
-        <Col className="" md={9}>
-          <div className="d-flex flex-row justify-content-end">
-            <h4 className="my-2 mr-4">
-              #&nbsp;
-              {name}
-            </h4>
-            <Button onClick={this.showModal('renaming')} className="ml-2"><span><GoPencil /></span></Button>
-            {removable && (
-              <Button onClick={this.showModal('removing')} className="ml-2"><span><GoTrashcan /></span></Button>
-            )}
-          </div>
-        </Col>
-        {this.renderModal()}
-      </>
-    );
-  }
-}
+  return (
+    <>
+      <Col className="" md={3}>
+        <Row className="mx-auto mb-3">
+          <h4 className="my-2">Channels</h4>
+          <Button onClick={showModal('adding')} className="ml-auto"><span><GoPlus /></span></Button>
+        </Row>
+      </Col>
+      <Col className="" md={9}>
+        <div className="d-flex flex-row justify-content-end">
+          <h4 className="my-2 mr-4">
+            #&nbsp;
+            {name}
+          </h4>
+          <Button onClick={showModal('renaming')} className="ml-2"><span><GoPencil /></span></Button>
+          {removable && (
+            <Button onClick={showModal('removing')} className="ml-2"><span><GoTrashcan /></span></Button>
+          )}
+        </div>
+      </Col>
+      {renderModal()}
+    </>
+  );
+};
 
 export default connect(mapStateToProps, actionCreators)(ChannelsMenu);

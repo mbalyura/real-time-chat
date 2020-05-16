@@ -4,7 +4,6 @@ import '../assets/application.scss';
 import { internet } from 'faker/locale/en';
 // import gon from 'gon'; //? not need ???
 import cookies from 'js-cookie';
-
 import run from './index.jsx';
 
 if (process.env.NODE_ENV !== 'production') {
@@ -14,12 +13,9 @@ if (process.env.NODE_ENV !== 'production') {
 console.log('it works!');
 console.log('server state: ', window.gon);
 
-// * begin
-// const randomUserName = localStorage.getItem('userName') || faker.internet.userName();
+// const randomUserName = localStorage.getItem('userName') || internet.userName();
 // localStorage.setItem('userName', randomUserName);
 const randomUserName = cookies.get('userName') || internet.userName();
 cookies.set('userName', randomUserName);
 
-const preloadedState = window.gon;
-
-run(preloadedState, randomUserName);
+run(randomUserName);
