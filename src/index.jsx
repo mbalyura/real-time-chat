@@ -5,13 +5,10 @@ import { Provider } from 'react-redux';
 import { createStore, applyMiddleware, compose } from 'redux';
 import thunk from 'redux-thunk';
 import logger from 'redux-logger';
-// import io from 'socket.io-client';
 
 import App from './components/App.jsx';
 import reducers from './reducers/index.js';
 import NameContext from './context';
-
-// import { addMessageOnSocket } from './actions/index.js';
 
 export default (preloadedState, userName) => {
   const middlewares = [thunk];
@@ -31,12 +28,6 @@ export default (preloadedState, userName) => {
       devtoolMiddleware,
     ),
   );
-
-  // const socket = io();
-  // socket.on('newMessage', ({ data: { attributes } }) => {
-  //   console.warn('*** IO new message ***');
-  //   store.dispatch(addMessageOnSocket(attributes));
-  // });
 
   ReactDOM.render(
     <Provider store={store}>

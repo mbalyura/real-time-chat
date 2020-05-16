@@ -84,8 +84,7 @@ class ChannelsMenu extends React.Component {
         <Col className="" md={9}>
           <div className="d-flex flex-row justify-content-end">
             <h4 className="my-2 mr-4">
-              #
-              {' '}
+              #&nbsp;
               {name}
             </h4>
             <Button onClick={this.showModal('renaming')} className="ml-2"><span><GoPencil /></span></Button>

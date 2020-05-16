@@ -14,8 +14,6 @@ const mapStateToProps = (state) => {
 };
 
 const actionCreators = {
-  addChannel: actions.addChannel,
-  deleteChannel: actions.deleteChannel,
   switchChannel: actions.switchChannel,
 };
 
@@ -23,14 +21,6 @@ class ChannelsList extends React.Component {
   handleSwitchChannel = (id) => () => {
     const { switchChannel } = this.props;
     switchChannel(id);
-  }
-
-  handleAddChannel = () => {
-    const { addChannel } = this.props;
-    const channel = {
-      name: 'new channel',
-    };
-    addChannel(channel);
   }
 
   render() {

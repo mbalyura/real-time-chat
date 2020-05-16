@@ -39,7 +39,7 @@ export default function Add(props) {
             />
           </FormGroup>
           <Button type="submit">OK</Button>
-          {' '}
+          &nbsp;
           <Button onClick={hideModal}>Cancel</Button>
         </form>
       </Modal.Body>

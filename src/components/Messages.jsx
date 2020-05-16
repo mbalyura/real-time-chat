@@ -19,7 +19,7 @@ class Messages extends React.Component {
           && currentMessages.map(({ text, id, userName }) => (
             <div key={id}>
               <b>{userName}</b>
-              {': '}
+              :&nbsp;
               {text}
             </div>
           ))}

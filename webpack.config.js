@@ -22,6 +22,11 @@ module.exports = {
     path: `${__dirname}/dist/public`,
     publicPath: '/assets/',
   },
+  // optimization: {
+  //   splitChunks: {
+  //     chunks: 'all',
+  //   },
+  // },
   plugins: [
     // new MiniCssExtractPlugin(),
     new BundleAnalyzerPlugin(),
