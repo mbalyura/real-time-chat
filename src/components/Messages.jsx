@@ -3,8 +3,8 @@ import { connect } from 'react-redux';
 
 const mapStateToProps = (state) => {
   const props = {
-    messages: state.messages,
-    currentChannelId: state.currentChannelId,
+    messages: state.messagesInfo.messages,
+    currentChannelId: state.channelsInfo.currentChannelId,
   };
   return props;
 };

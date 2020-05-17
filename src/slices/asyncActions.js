@@ -18,41 +18,6 @@ export const removeChannelRequest = createAction('CHANNEL_REMOVE_REQUEST');
 export const removeChannelSuccess = createAction('CHANNEL_REMOVE_SUCCESS');
 export const removeChannelFailure = createAction('CHANNEL_REMOVE_FAILURE');
 
-export const addMessageOnSocket = (message) => ({
-  type: 'MESSAGE_ADD_SOCKET',
-  payload: {
-    message,
-  },
-});
-
-export const addChannelOnSocket = (channel) => ({
-  type: 'CHANNEL_ADD_SOCKET',
-  payload: {
-    channel,
-  },
-});
-
-export const renameChannelOnSocket = (channel) => ({
-  type: 'CHANNEL_RENAME_SOCKET',
-  payload: {
-    channel,
-  },
-});
-
-export const removeChannelOnSocket = (channelId) => ({
-  type: 'CHANNEL_REMOVE_SOCKET',
-  payload: {
-    channelId,
-  },
-});
-
-export const switchChannel = (id) => ({
-  type: 'CHANNEL_SWITCH',
-  payload: {
-    id,
-  },
-});
-
 export const addMessage = ({ text, userName, channelId }) => async (dispatch) => {
   dispatch(addMessageRequest());
   try {

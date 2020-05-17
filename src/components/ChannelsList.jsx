@@ -1,27 +1,25 @@
 import React from 'react';
-import { connect } from 'react-redux';
+import { connect, useDispatch } from 'react-redux';
 
 import ListGroup from 'react-bootstrap/ListGroup';
 
-import * as actions from '../actions/index.js';
+import { switchChannel } from '../slices';
 
 const mapStateToProps = (state) => {
   const props = {
-    channels: state.channels,
-    currentChannelId: state.currentChannelId,
+    channels: state.channelsInfo.channels,
+    currentChannelId: state.channelsInfo.currentChannelId,
   };
   return props;
 };
 
-const actionCreators = {
-  switchChannel: actions.switchChannel,
-};
-
 const ChannelsList = (props) => {
-  const { channels, currentChannelId, switchChannel } = props;
+  const { channels, currentChannelId } = props;
+
+  const dispatch = useDispatch();
 
   const handleSwitchChannel = (id) => () => {
-    switchChannel(id);
+    dispatch(switchChannel({ id }));
   };
 
   return (
@@ -42,4 +40,4 @@ const ChannelsList = (props) => {
   );
 };
 
-export default connect(mapStateToProps, actionCreators)(ChannelsList);
+export default connect(mapStateToProps, null)(ChannelsList);

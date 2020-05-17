@@ -1,5 +1,4 @@
 import React from 'react';
-import { connect } from 'react-redux';
 import io from 'socket.io-client';
 
 import { Row, Col } from 'react-bootstrap';
@@ -9,42 +8,34 @@ import ChannelsMenu from './ChannelsMenu';
 import Messages from './Messages';
 import NewMessageForm from './NewMessageForm';
 
-import * as actions from '../actions/index.js';
-
-const actionCreators = {
-  addMessageOnSocket: actions.addMessageOnSocket,
-  addChannelOnSocket: actions.addChannelOnSocket,
-  renameChannelOnSocket: actions.renameChannelOnSocket,
-  removeChannelOnSocket: actions.removeChannelOnSocket,
-};
+import { dispatch } from '../store.js';
+import {
+  addChannel,
+  removeChannel,
+  renameChannel,
+  addMessage,
+} from '../slices';
 
 class App extends React.Component {
   componentDidMount() {
-    const {
-      addMessageOnSocket,
-      addChannelOnSocket,
-      renameChannelOnSocket,
-      removeChannelOnSocket,
-    } = this.props;
-
     const socket = io();
 
     socket
       .on('newMessage', ({ data: { attributes } }) => {
         console.warn('*** IO new message ***');
-        addMessageOnSocket(attributes);
+        dispatch(addMessage({ message: attributes }));
       })
       .on('newChannel', ({ data: { attributes } }) => {
         console.warn('*** IO new channel ***');
-        addChannelOnSocket(attributes);
+        dispatch(addChannel({ channel: attributes }));
       })
       .on('renameChannel', ({ data: { attributes } }) => {
         console.warn('*** IO rename channel ***');
-        renameChannelOnSocket(attributes);
+        dispatch(renameChannel({ channel: attributes }));
       })
       .on('removeChannel', ({ data: { id } }) => {
         console.warn('*** IO remove channel ***');
-        removeChannelOnSocket(id);
+        dispatch(removeChannel({ channelId: id }));
       });
   }
 
@@ -68,4 +59,4 @@ class App extends React.Component {
   }
 }
 
-export default connect(null, actionCreators)(App);
+export default App;

@@ -5,12 +5,12 @@ import { useFormik } from 'formik';
 import Form from 'react-bootstrap/Form';
 import InputGroup from 'react-bootstrap/InputGroup';
 
-import * as actions from '../actions/index.js';
+import * as actions from '../slices/asyncActions.js';
 import NameContext from '../context';
 
 const mapStateToProps = (state) => {
   const props = {
-    channelId: state.currentChannelId,
+    channelId: state.channelsInfo.currentChannelId,
   };
   return props;
 };
@@ -29,7 +29,7 @@ const NewMessageForm = (props) => {
   });
 
   const formik = useFormik({
-    onSubmit: ({ text }) => {
+    onSubmit: ({ text }, { resetForm }) => {
       const { addMessage, channelId } = props;
       const message = {
         text,
@@ -37,6 +37,7 @@ const NewMessageForm = (props) => {
         channelId,
       };
       addMessage(message);
+      resetForm({});
     },
     initialValues: { text: '' },
   });

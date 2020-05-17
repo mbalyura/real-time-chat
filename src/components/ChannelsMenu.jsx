@@ -4,13 +4,13 @@ import { connect } from 'react-redux';
 import { Row, Col, Button } from 'react-bootstrap';
 import { GoPlus, GoPencil, GoTrashcan } from 'react-icons/go';
 
-import * as actions from '../actions/index.js';
+import * as actions from '../slices/asyncActions.js';
 import getModal from './Modals/index.js';
 
 const mapStateToProps = (state) => {
   const props = {
-    channels: state.channels,
-    currentChannelId: state.currentChannelId,
+    channels: state.channelsInfo.channels,
+    currentChannelId: state.channelsInfo.currentChannelId,
   };
   return props;
 };
