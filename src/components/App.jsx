@@ -2,6 +2,8 @@ import React from 'react';
 import io from 'socket.io-client';
 
 import { Row, Col } from 'react-bootstrap';
+import { ToastContainer, toast, Slide } from 'react-toastify';
+// import 'react-toastify/dist/ReactToastify.css';
 
 import ChannelsList from './ChannelsList';
 import ChannelsMenu from './ChannelsMenu';
@@ -19,8 +21,10 @@ import {
 class App extends React.Component {
   componentDidMount() {
     const socket = io();
-
+    // toast.configure();
     socket
+      .on('connect', () => toast('Connected!', { className: 'alert alert-success' }))
+      .on('disconnect', () => toast('Connection lost!', { className: 'alert alert-danger' }))
       .on('newMessage', ({ data: { attributes } }) => {
         console.warn('*** IO new message ***');
         dispatch(addMessage({ message: attributes }));
@@ -53,6 +57,21 @@ class App extends React.Component {
             <Messages />
             <NewMessageForm />
           </Col>
+        </Row>
+        <Row>
+          <ToastContainer
+            position="bottom-center"
+            autoClose={2000}
+            transition={Slide}
+            hideProgressBar
+            newestOnTop
+            closeOnClick
+            rtl={false}
+            pauseOnFocusLoss
+            draggable
+            pauseOnHover={false}
+            style={{ width: '25%', textAlign: 'center' }}
+          />
         </Row>
       </>
     );

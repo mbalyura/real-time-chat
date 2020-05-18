@@ -1,5 +1,7 @@
 import axios from 'axios';
 import { createAction } from 'redux-actions';
+import { toast } from 'react-toastify';
+
 import routes from '../routes.js';
 
 export const addMessageRequest = createAction('MESSAGE_ADD_REQUEST');
@@ -18,6 +20,8 @@ export const removeChannelRequest = createAction('CHANNEL_REMOVE_REQUEST');
 export const removeChannelSuccess = createAction('CHANNEL_REMOVE_SUCCESS');
 export const removeChannelFailure = createAction('CHANNEL_REMOVE_FAILURE');
 
+const getToast = (text) => toast(text, { className: 'alert alert-danger' });
+
 export const addMessage = ({ text, userName, channelId }) => async (dispatch) => {
   dispatch(addMessageRequest());
   try {
@@ -26,6 +30,7 @@ export const addMessage = ({ text, userName, channelId }) => async (dispatch) =>
     dispatch(addMessageSuccess()); // ? no payload ??!
   } catch (err) {
     dispatch(addMessageFailure());
+    getToast('Error sending message');
     throw err;
   }
 };
@@ -38,6 +43,7 @@ export const addChannel = ({ name }) => async (dispatch) => {
     dispatch(addChannelSuccess());
   } catch (err) {
     dispatch(addChannelFailure());
+    getToast('Error adding channel');
     throw err;
   }
 };
@@ -50,6 +56,7 @@ export const renameChannel = ({ name, id }) => async (dispatch) => {
     dispatch(renameChannelSuccess());
   } catch (err) {
     dispatch(renameChannelFailure());
+    getToast('Error channel renaming');
     throw err;
   }
 };
@@ -61,6 +68,7 @@ export const removeChannel = ({ id }) => async (dispatch) => {
     dispatch(removeChannelSuccess());
   } catch (err) {
     dispatch(removeChannelFailure());
+    getToast('Error channel removing');
     throw err;
   }
 };
