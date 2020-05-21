@@ -1,74 +1,62 @@
 import axios from 'axios';
-import { createAction } from 'redux-actions';
 import { toast } from 'react-toastify';
 
 import routes from '../routes.js';
+import { toogleLoadingState } from './index';
 
-export const addMessageRequest = createAction('MESSAGE_ADD_REQUEST');
-export const addMessageSuccess = createAction('MESSAGE_ADD_SUCCESS');
-export const addMessageFailure = createAction('MESSAGE_ADD_FAILURE');
-
-export const addChannelRequest = createAction('CHANNEL_ADD_REQUEST');
-export const addChannelSuccess = createAction('CHANNEL_ADD_SUCCESS');
-export const addChannelFailure = createAction('CHANNEL_ADD_FAILURE');
-
-export const renameChannelRequest = createAction('CHANNEL_RENAME_REQUEST');
-export const renameChannelSuccess = createAction('CHANNEL_RENAME_SUCCESS');
-export const renameChannelFailure = createAction('CHANNEL_RENAME_FAILURE');
-
-export const removeChannelRequest = createAction('CHANNEL_REMOVE_REQUEST');
-export const removeChannelSuccess = createAction('CHANNEL_REMOVE_SUCCESS');
-export const removeChannelFailure = createAction('CHANNEL_REMOVE_FAILURE');
-
-const getToast = (text) => toast(text, { className: 'alert alert-danger' });
+const getSuccesToast = (text) => toast(text, { className: 'alert alert-success' });
+const getDangerToast = (text) => toast(text, { className: 'alert alert-danger' });
 
 export const addMessage = ({ text, userName, channelId }) => async (dispatch) => {
-  dispatch(addMessageRequest());
+  dispatch(toogleLoadingState());
   try {
     const data = { attributes: { text, userName } };
     await axios.post(routes.channelMessagesPath(channelId), { data });
-    dispatch(addMessageSuccess()); // ? no payload ??!
+    dispatch(toogleLoadingState());
   } catch (err) {
-    dispatch(addMessageFailure());
-    getToast('Error sending message');
-    throw err;
+    console.log('addMessage -> err', err);
+    getDangerToast('Error sending message');
+    dispatch(toogleLoadingState());
+    // throw err;
   }
 };
 
 export const addChannel = ({ name }) => async (dispatch) => {
-  dispatch(addChannelRequest());
+  dispatch(toogleLoadingState());
   try {
     const data = { attributes: { name } };
     await axios.post(routes.channelsPath(), { data });
-    dispatch(addChannelSuccess());
+    getSuccesToast('Channel added!');
+    dispatch(toogleLoadingState());
   } catch (err) {
-    dispatch(addChannelFailure());
-    getToast('Error adding channel');
+    getDangerToast('Error adding channel');
+    dispatch(toogleLoadingState());
     throw err;
   }
 };
 
 export const renameChannel = ({ name, id }) => async (dispatch) => {
-  dispatch(renameChannelRequest());
+  dispatch(toogleLoadingState());
   try {
     const data = { attributes: { name } };
     await axios.patch(routes.channelPath(id), { data });
-    dispatch(renameChannelSuccess());
+    dispatch(toogleLoadingState());
   } catch (err) {
-    dispatch(renameChannelFailure());
-    getToast('Error channel renaming');
+    getDangerToast('Error channel renaming');
+    dispatch(toogleLoadingState());
     throw err;
   }
 };
 
 export const removeChannel = ({ id }) => async (dispatch) => {
-  dispatch(removeChannelRequest());
+  dispatch(toogleLoadingState());
   try {
     await axios.delete(routes.channelPath(id));
-    dispatch(removeChannelSuccess());
+    getDangerToast('Channel removed!');
+    dispatch(toogleLoadingState());
   } catch (err) {
-    dispatch(removeChannelFailure());
-    getToast('Error channel removing');
+    getDangerToast('Error channel removing');
+    dispatch(toogleLoadingState());
     throw err;
   }
 };

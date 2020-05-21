@@ -1,9 +1,9 @@
 import React from 'react';
 import io from 'socket.io-client';
+import { connect } from 'react-redux';
 
-import { Row, Col } from 'react-bootstrap';
+import { Row, Col, Spinner } from 'react-bootstrap';
 import { ToastContainer, toast, Slide } from 'react-toastify';
-// import 'react-toastify/dist/ReactToastify.css';
 
 import ChannelsList from './ChannelsList';
 import ChannelsMenu from './ChannelsMenu';
@@ -18,10 +18,16 @@ import {
   addMessage,
 } from '../slices';
 
+const mapStateToProps = (state) => {
+  const props = {
+    isLoading: state.loadingInfo.isLoading,
+  };
+  return props;
+};
+
 class App extends React.Component {
   componentDidMount() {
     const socket = io();
-    // toast.configure();
     socket
       .on('connect', () => toast('Connected!', { className: 'alert alert-success' }))
       .on('disconnect', () => toast('Connection lost!', { className: 'alert alert-danger' }))
@@ -43,9 +49,24 @@ class App extends React.Component {
       });
   }
 
+  showSpinner() {
+    const { isLoading } = this.props;
+    if (!isLoading) return null;
+    const styles = {
+      position: 'absolute',
+      top: '50%',
+      left: '50%',
+      zIndex: '100',
+    };
+    return (
+      <Spinner style={styles} animation="grow" variant="dark" size="xl" />
+    );
+  }
+
   render() {
     return (
       <>
+        {this.showSpinner()}
         <Row className="mt-5">
           <ChannelsMenu />
         </Row>
@@ -78,4 +99,4 @@ class App extends React.Component {
   }
 }
 
-export default App;
+export default connect(mapStateToProps, null)(App);

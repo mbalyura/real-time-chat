@@ -2,8 +2,9 @@ import { combineReducers } from 'redux';
 
 import channelsInfo, { actions as channelsActions } from './channelsInfo';
 import messagesInfo, { actions as messagesActions } from './messagesInfo';
+import loadingInfo, { actions as loadingActions } from './loadingInfo';
 
-export default combineReducers({ channelsInfo, messagesInfo });
+export default combineReducers({ channelsInfo, messagesInfo, loadingInfo });
 
 export const {
   addChannel,
@@ -11,4 +12,5 @@ export const {
   renameChannel,
   switchChannel,
   addMessage,
-} = { ...channelsActions, ...messagesActions };
+  toogleLoadingState,
+} = { ...channelsActions, ...messagesActions, ...loadingActions };
