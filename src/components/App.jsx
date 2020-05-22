@@ -1,14 +1,15 @@
 import React from 'react';
 import io from 'socket.io-client';
-import { connect } from 'react-redux';
 
-import { Row, Col, Spinner } from 'react-bootstrap';
+import { Row, Col } from 'react-bootstrap';
 import { ToastContainer, toast, Slide } from 'react-toastify';
+import i18next from 'i18next';
 
 import ChannelsList from './ChannelsList';
 import ChannelsMenu from './ChannelsMenu';
 import Messages from './Messages';
 import NewMessageForm from './NewMessageForm';
+import Spinner from './Spinner';
 
 import { dispatch } from '../store.js';
 import {
@@ -18,19 +19,12 @@ import {
   addMessage,
 } from '../slices';
 
-const mapStateToProps = (state) => {
-  const props = {
-    isLoading: state.loadingInfo.isLoading,
-  };
-  return props;
-};
-
 class App extends React.Component {
   componentDidMount() {
     const socket = io();
     socket
-      .on('connect', () => toast('Connected!', { className: 'alert alert-success' }))
-      .on('disconnect', () => toast('Connection lost!', { className: 'alert alert-danger' }))
+      .on('connect', () => toast(i18next.t('alerts.connected'), { className: 'alert alert-success' }))
+      .on('disconnect', () => toast(i18next.t('alerts.disconnected'), { className: 'alert alert-danger' }))
       .on('newMessage', ({ data: { attributes } }) => {
         console.warn('*** IO new message ***');
         dispatch(addMessage({ message: attributes }));
@@ -49,24 +43,9 @@ class App extends React.Component {
       });
   }
 
-  showSpinner() {
-    const { isLoading } = this.props;
-    if (!isLoading) return null;
-    const styles = {
-      position: 'absolute',
-      top: '50%',
-      left: '50%',
-      zIndex: '100',
-    };
-    return (
-      <Spinner style={styles} animation="grow" variant="dark" size="xl" />
-    );
-  }
-
   render() {
     return (
       <>
-        {this.showSpinner()}
         <Row className="mt-5">
           <ChannelsMenu />
         </Row>
@@ -93,10 +72,11 @@ class App extends React.Component {
             pauseOnHover={false}
             style={{ width: '25%', textAlign: 'center' }}
           />
+          <Spinner />
         </Row>
       </>
     );
   }
 }
 
-export default connect(mapStateToProps, null)(App);
+export default App;

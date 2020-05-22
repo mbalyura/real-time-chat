@@ -1,5 +1,6 @@
 import React, { useEffect, useRef } from 'react';
 import { useFormik } from 'formik';
+import { useTranslation } from 'react-i18next';
 import {
   Modal,
   FormGroup,
@@ -10,6 +11,7 @@ import {
 export default function Rename(props) {
   const { hideModal, updateChannels, currentChannel } = props;
   const inputRef = useRef();
+  const { t } = useTranslation();
 
   const formik = useFormik({
     onSubmit: (values) => updateChannels(values.channel),
@@ -23,7 +25,7 @@ export default function Rename(props) {
   return (
     <Modal show centered animation onHide={hideModal}>
       <Modal.Header closeButton>
-        <Modal.Title>Rename channel?</Modal.Title>
+        <Modal.Title>{t('dialogs.renameChannel')}</Modal.Title>
       </Modal.Header>
       <Modal.Body>
         <form onSubmit={formik.handleSubmit}>
@@ -37,9 +39,9 @@ export default function Rename(props) {
               ref={inputRef}
             />
           </FormGroup>
-          <Button type="submit">OK</Button>
+          <Button type="submit">{t('buttons.ok')}</Button>
           &nbsp;
-          <Button onClick={hideModal}>Cancel</Button>
+          <Button onClick={hideModal}>{t('buttons.cancel')}</Button>
         </form>
       </Modal.Body>
     </Modal>

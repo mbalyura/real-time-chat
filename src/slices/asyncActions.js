@@ -1,11 +1,12 @@
 import axios from 'axios';
 import { toast } from 'react-toastify';
+import i18next from 'i18next';
 
 import routes from '../routes.js';
 import { toogleLoadingState } from './index';
 
-const getSuccesToast = (text) => toast(text, { className: 'alert alert-success' });
-const getDangerToast = (text) => toast(text, { className: 'alert alert-danger' });
+const showSuccesToast = (text) => toast(i18next.t(text), { className: 'alert alert-success' });
+const showDangerToast = (text) => toast(i18next.t(text), { className: 'alert alert-danger' });
 
 export const addMessage = ({ text, userName, channelId }) => async (dispatch) => {
   dispatch(toogleLoadingState());
@@ -14,10 +15,9 @@ export const addMessage = ({ text, userName, channelId }) => async (dispatch) =>
     await axios.post(routes.channelMessagesPath(channelId), { data });
     dispatch(toogleLoadingState());
   } catch (err) {
-    console.log('addMessage -> err', err);
-    getDangerToast('Error sending message');
+    showDangerToast('errors.message');
     dispatch(toogleLoadingState());
-    // throw err;
+    throw err;
   }
 };
 
@@ -26,10 +26,10 @@ export const addChannel = ({ name }) => async (dispatch) => {
   try {
     const data = { attributes: { name } };
     await axios.post(routes.channelsPath(), { data });
-    getSuccesToast('Channel added!');
+    showSuccesToast('alerts.channelAdded');
     dispatch(toogleLoadingState());
   } catch (err) {
-    getDangerToast('Error adding channel');
+    showDangerToast('errors.channelAdding');
     dispatch(toogleLoadingState());
     throw err;
   }
@@ -42,7 +42,7 @@ export const renameChannel = ({ name, id }) => async (dispatch) => {
     await axios.patch(routes.channelPath(id), { data });
     dispatch(toogleLoadingState());
   } catch (err) {
-    getDangerToast('Error channel renaming');
+    showDangerToast('errors.channelRenaming');
     dispatch(toogleLoadingState());
     throw err;
   }
@@ -52,10 +52,10 @@ export const removeChannel = ({ id }) => async (dispatch) => {
   dispatch(toogleLoadingState());
   try {
     await axios.delete(routes.channelPath(id));
-    getDangerToast('Channel removed!');
+    showDangerToast('alerts.channelRemoved');
     dispatch(toogleLoadingState());
   } catch (err) {
-    getDangerToast('Error channel removing');
+    showDangerToast('errors.channelRemoving');
     dispatch(toogleLoadingState());
     throw err;
   }
