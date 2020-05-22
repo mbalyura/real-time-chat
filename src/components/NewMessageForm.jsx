@@ -4,6 +4,7 @@ import { useFormik } from 'formik';
 
 import Form from 'react-bootstrap/Form';
 import InputGroup from 'react-bootstrap/InputGroup';
+import { useTranslation } from 'react-i18next';
 
 import * as actions from '../slices/asyncActions.js';
 import NameContext from '../context';
@@ -23,6 +24,8 @@ const NewMessageForm = (props) => {
   const userName = useContext(NameContext);
 
   const textInput = useRef();
+
+  const { t } = useTranslation();
 
   useEffect(() => {
     textInput.current.focus();
@@ -56,7 +59,7 @@ const NewMessageForm = (props) => {
             onChange={formik.handleChange}
             value={formik.values.text}
             name="text"
-            placeholder="type message here"
+            placeholder={t('placeholder')}
             ref={textInput}
           />
         </InputGroup>
