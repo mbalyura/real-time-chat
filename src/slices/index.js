@@ -12,5 +12,5 @@ export const {
   renameChannel,
   switchChannel,
   addMessage,
-  toogleLoadingState,
+  toggleLoadingState,
 } = { ...channelsActions, ...messagesActions, ...loadingActions };

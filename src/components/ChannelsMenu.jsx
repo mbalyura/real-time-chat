@@ -3,9 +3,10 @@ import { connect } from 'react-redux';
 
 import { Row, Col, Button } from 'react-bootstrap';
 import { GoPlus, GoPencil, GoTrashcan } from 'react-icons/go';
+import { useTranslation } from 'react-i18next';
 
-import * as actions from '../slices/asyncActions.js';
-import getModal from './Modals/index.js';
+import * as actions from '../slices/asyncActions';
+import getModal from './Modals';
 
 const mapStateToProps = (state) => {
   const props = {
@@ -29,6 +30,8 @@ const ChannelsMenu = (props) => {
     renameChannel,
     removeChannel,
   } = props;
+
+  const { t } = useTranslation();
 
   const [modal, setModal] = useState({ type: null });
 
@@ -71,7 +74,7 @@ const ChannelsMenu = (props) => {
     <>
       <Col className="" md={3}>
         <Row className="mx-auto mb-3">
-          <h4 className="my-2">Channels</h4>
+          <h4 className="my-2">{t('channels')}</h4>
           <Button onClick={showModal('adding')} className="ml-auto"><span><GoPlus /></span></Button>
         </Row>
       </Col>

@@ -1,11 +1,10 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-
 import { Provider } from 'react-redux';
-import store from './store';
-
-import App from './components/App.jsx';
+import store from './configStore';
+import './i18n';
 import NameContext from './context';
+import App from './components/App.jsx';
 
 export default (userName) => {
   ReactDOM.render(
