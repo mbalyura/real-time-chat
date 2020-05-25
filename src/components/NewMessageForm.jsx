@@ -1,51 +1,39 @@
 import React, { useContext, useEffect, useRef } from 'react';
-import { connect } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { useFormik } from 'formik';
 
 import { Form, InputGroup } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
 
-import * as actions from '../slices/asyncActions';
+import { addMessage } from '../slices/asyncActions';
 import NameContext from '../context';
 
-const mapStateToProps = (state) => {
-  const props = {
-    channelId: state.channelsInfo.currentChannelId,
-  };
-  return props;
-};
-
-const actionCreators = {
-  addMessage: actions.addMessage,
-};
-
-const NewMessageForm = (props) => {
+const NewMessageForm = () => {
+  const channelId = useSelector(({ channelsInfo }) => channelsInfo.currentChannelId);
   const userName = useContext(NameContext);
 
   const textInput = useRef();
+  useEffect(() => textInput.current.focus());
+
+  const dispatch = useDispatch();
 
   const { t } = useTranslation();
 
-  useEffect(() => {
-    textInput.current.focus();
-  });
-
   const formik = useFormik({
     onSubmit: ({ text }, { resetForm }) => {
-      const { addMessage, channelId } = props;
       const message = {
         text,
         userName,
         channelId,
       };
-      addMessage(message);
+      dispatch(addMessage(message));
       resetForm({});
     },
     initialValues: { text: '' },
   });
 
   return (
-    <div className="form-container mt-auto w-100">
+    <div className="mt-auto w-100">
       <Form className="" onSubmit={formik.handleSubmit}>
         <InputGroup>
           <InputGroup.Prepend>
@@ -67,4 +55,4 @@ const NewMessageForm = (props) => {
   );
 };
 
-export default connect(mapStateToProps, actionCreators)(NewMessageForm);
+export default NewMessageForm;

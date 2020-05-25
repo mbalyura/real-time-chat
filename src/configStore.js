@@ -12,7 +12,11 @@ const preloadedState = {
   messagesInfo: { messages: serverState.messages },
 };
 
-const middleware = [...getDefaultMiddleware(), logger];
+const middleware = [...getDefaultMiddleware({
+  immutableCheck: false,
+  serializableCheck: false,
+  thunk: true,
+}), logger];
 
 const store = configureStore({
   reducer: rootReducer,
@@ -20,7 +24,5 @@ const store = configureStore({
   devTools: process.env.NODE_ENV !== 'production',
   preloadedState,
 });
-
-export const { dispatch } = store;
 
 export default store;

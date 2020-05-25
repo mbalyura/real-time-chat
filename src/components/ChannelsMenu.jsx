@@ -1,53 +1,32 @@
 import React, { useState } from 'react';
-import { connect } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 import { Row, Col, Button } from 'react-bootstrap';
 import { GoPlus, GoPencil, GoTrashcan } from 'react-icons/go';
 import { useTranslation } from 'react-i18next';
 
-import * as actions from '../slices/asyncActions';
+import { addChannel, renameChannel, removeChannel } from '../slices/asyncActions';
 import getModal from './Modals';
 
-const mapStateToProps = (state) => {
-  const props = {
-    channels: state.channelsInfo.channels,
-    currentChannelId: state.channelsInfo.currentChannelId,
-  };
-  return props;
-};
+const ChannelsMenu = () => {
+  const channels = useSelector(({ channelsInfo }) => channelsInfo.channels);
+  const currentChannelId = useSelector(({ channelsInfo }) => channelsInfo.currentChannelId);
 
-const actionCreators = {
-  addChannel: actions.addChannel,
-  renameChannel: actions.renameChannel,
-  removeChannel: actions.removeChannel,
-};
-
-const ChannelsMenu = (props) => {
-  const {
-    channels,
-    currentChannelId,
-    addChannel,
-    renameChannel,
-    removeChannel,
-  } = props;
+  const dispatch = useDispatch();
 
   const { t } = useTranslation();
 
   const [modal, setModal] = useState({ type: null });
 
-  const hideModal = () => {
-    setModal({ type: null });
-  };
+  const hideModal = () => setModal({ type: null });
 
-  const showModal = (type) => () => {
-    setModal({ type });
-  };
+  const showModal = (type) => () => setModal({ type });
 
   const updateChannels = (name) => {
     const mapModalTypeToActions = {
-      adding: () => addChannel({ name }),
-      renaming: () => renameChannel({ name, id: currentChannelId }),
-      removing: () => removeChannel({ id: currentChannelId }),
+      adding: () => dispatch(addChannel({ name })),
+      renaming: () => dispatch(renameChannel({ name, id: currentChannelId })),
+      removing: () => dispatch(removeChannel({ id: currentChannelId })),
     };
 
     mapModalTypeToActions[modal.type]();
@@ -72,13 +51,13 @@ const ChannelsMenu = (props) => {
 
   return (
     <>
-      <Col className="" md={3}>
+      <Col md={3}>
         <Row className="mx-auto mb-3">
           <h4 className="my-2">{t('channels')}</h4>
           <Button onClick={showModal('adding')} className="ml-auto"><span><GoPlus /></span></Button>
         </Row>
       </Col>
-      <Col className="" md={9}>
+      <Col md={9}>
         <div className="d-flex flex-row justify-content-end">
           <h4 className="my-2 mr-4">
             #&nbsp;
@@ -95,4 +74,4 @@ const ChannelsMenu = (props) => {
   );
 };
 
-export default connect(mapStateToProps, actionCreators)(ChannelsMenu);
+export default ChannelsMenu;

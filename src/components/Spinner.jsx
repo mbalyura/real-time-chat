@@ -1,17 +1,12 @@
 import React from 'react';
-import { connect } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { Spinner as BsSpinner } from 'react-bootstrap';
 
-const mapStateToProps = (state) => {
-  const props = {
-    isLoading: state.loadingInfo.isLoading,
-  };
-  return props;
-};
+const Spinner = () => {
+  const isLoading = useSelector(({ loadingInfo }) => loadingInfo.isLoading);
 
-const Spinner = (props) => {
-  const { isLoading } = props;
   if (!isLoading) return null;
+
   const styles = {
     position: 'fixed',
     top: '50%',
@@ -24,4 +19,4 @@ const Spinner = (props) => {
   );
 };
 
-export default connect(mapStateToProps, null)(Spinner);
+export default Spinner;

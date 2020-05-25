@@ -10,16 +10,15 @@ import {
 
 export default function Rename(props) {
   const { hideModal, updateChannels, currentChannel } = props;
+
   const inputRef = useRef();
+  useEffect(() => inputRef.current.focus());
+
   const { t } = useTranslation();
 
   const formik = useFormik({
     onSubmit: (values) => updateChannels(values.channel),
     initialValues: { channel: currentChannel.name },
-  });
-
-  useEffect(() => {
-    inputRef.current.focus();
   });
 
   return (

@@ -1,20 +1,14 @@
 import React from 'react';
-import { connect } from 'react-redux';
+import { useSelector } from 'react-redux';
 
-const mapStateToProps = (state) => {
-  const props = {
-    messages: state.messagesInfo.messages,
-    currentChannelId: state.channelsInfo.currentChannelId,
-  };
-  return props;
-};
+const Messages = () => {
+  const messages = useSelector(({ messagesInfo }) => messagesInfo.messages);
+  const currentChannelId = useSelector(({ channelsInfo }) => channelsInfo.currentChannelId);
 
-const Messages = (props) => {
-  const { messages, currentChannelId } = props;
   const currentMessages = messages.filter(({ channelId }) => channelId === currentChannelId);
 
   return (
-    <div className="messages-container overflow-auto bg-light text-dark p-3 mb-3 h-100">
+    <div className="overflow-auto bg-light text-dark p-3 mb-3 h-100">
       {currentMessages
         && currentMessages.map(({ text, id, userName }) => (
           <div key={id}>
@@ -27,4 +21,4 @@ const Messages = (props) => {
   );
 };
 
-export default connect(mapStateToProps, null)(Messages);
+export default Messages;

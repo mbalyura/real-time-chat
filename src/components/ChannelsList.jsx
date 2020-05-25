@@ -1,29 +1,19 @@
 import React from 'react';
-import { connect, useDispatch } from 'react-redux';
-
-import ListGroup from 'react-bootstrap/ListGroup';
+import { useSelector, useDispatch } from 'react-redux';
+import { ListGroup } from 'react-bootstrap';
 
 import { switchChannel } from '../slices';
 
-const mapStateToProps = (state) => {
-  const props = {
-    channels: state.channelsInfo.channels,
-    currentChannelId: state.channelsInfo.currentChannelId,
-  };
-  return props;
-};
-
-const ChannelsList = (props) => {
-  const { channels, currentChannelId } = props;
+const ChannelsList = () => {
+  const channels = useSelector(({ channelsInfo }) => channelsInfo.channels);
+  const currentChannelId = useSelector(({ channelsInfo }) => channelsInfo.currentChannelId);
 
   const dispatch = useDispatch();
 
-  const handleSwitchChannel = (id) => () => {
-    dispatch(switchChannel({ id }));
-  };
+  const handleSwitchChannel = (id) => () => dispatch(switchChannel({ id }));
 
   return (
-    <div className="chanels-list w-100">
+    <div className="w-100">
       <ListGroup>
         {channels.map(({ name, id }) => (
           <ListGroup.Item
@@ -40,4 +30,4 @@ const ChannelsList = (props) => {
   );
 };
 
-export default connect(mapStateToProps, null)(ChannelsList);
+export default ChannelsList;

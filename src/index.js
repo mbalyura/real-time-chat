@@ -1,7 +1,7 @@
 import 'core-js/stable';
 import 'regenerator-runtime/runtime';
 import '../assets/application.scss';
-import { internet } from 'faker/locale/en';
+import { internet } from 'faker/locale/en/';
 import cookies from 'js-cookie';
 import run from './init.jsx';
 
