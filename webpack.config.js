@@ -1,10 +1,6 @@
-// @ts-check
-
-// const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 // const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
 
 const isProduction = process.env.NODE_ENV === 'production';
-// const isDevelopment = !isProduction;
 console.log('isProduction', isProduction);
 
 module.exports = {
@@ -12,9 +8,6 @@ module.exports = {
   entry: [
     `${__dirname}/src/index.js`,
   ],
-  // externals: {
-  //   gon: 'gon', //? not need ??
-  // },
   resolve: {
     extensions: ['.js', '.jsx'],
   },

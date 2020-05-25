@@ -11,7 +11,7 @@ import Messages from './Messages';
 import NewMessageForm from './NewMessageForm';
 import Spinner from './Spinner';
 
-import { dispatch } from '../store.js';
+import { dispatch } from '../configStore';
 import {
   addChannel,
   removeChannel,

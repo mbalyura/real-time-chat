@@ -1,16 +1,13 @@
-// @ts-check
-
 import 'core-js/stable';
 import 'regenerator-runtime/runtime';
 
-import path from 'path'; // постороение путей
-import Pug from 'pug'; // шаблонизатор
+import path from 'path';
+import Pug from 'pug';
 import socket from 'socket.io';
-import fastify from 'fastify'; // сервер
-import pointOfView from 'point-of-view'; // Templates rendering plugin //add to reply interface view method for manage view engines that can be used to render templates responses
+import fastify from 'fastify';
+import pointOfView from 'point-of-view';
 import fastifyStatic from 'fastify-static';
-// import _ from 'lodash';
-import addRoutes from './routes.js';
+import addRoutes from './routes';
 
 const isProduction = process.env.NODE_ENV === 'production';
 const appPath = path.join(__dirname, '..');
@@ -37,7 +34,7 @@ const setUpStaticAssets = (app) => {
 };
 
 
-export default (options) => { // ! options: { port: '5000' }
+export default (options) => {
   const logger = { logger: { prettyPrint: { colorize: true } } };
 
   const app = fastify(logger);

@@ -2,11 +2,10 @@ import React, { useContext, useEffect, useRef } from 'react';
 import { connect } from 'react-redux';
 import { useFormik } from 'formik';
 
-import Form from 'react-bootstrap/Form';
-import InputGroup from 'react-bootstrap/InputGroup';
+import { Form, InputGroup } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
 
-import * as actions from '../slices/asyncActions.js';
+import * as actions from '../slices/asyncActions';
 import NameContext from '../context';
 
 const mapStateToProps = (state) => {

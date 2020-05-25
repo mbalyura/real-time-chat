@@ -5,8 +5,8 @@ import { Row, Col, Button } from 'react-bootstrap';
 import { GoPlus, GoPencil, GoTrashcan } from 'react-icons/go';
 import { useTranslation } from 'react-i18next';
 
-import * as actions from '../slices/asyncActions.js';
-import getModal from './Modals/index.js';
+import * as actions from '../slices/asyncActions';
+import getModal from './Modals';
 
 const mapStateToProps = (state) => {
   const props = {
