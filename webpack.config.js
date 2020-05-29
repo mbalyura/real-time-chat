@@ -15,13 +15,12 @@ module.exports = {
     path: `${__dirname}/dist/public`,
     publicPath: '/assets/',
   },
-  // optimization: {
-  //   splitChunks: {
-  //     chunks: 'all',
-  //   },
-  // },
+  optimization: {
+    splitChunks: {
+      chunks: 'all',
+    },
+  },
   plugins: [
-    // new MiniCssExtractPlugin(),
     // new BundleAnalyzerPlugin(),
   ],
   module: {
@@ -39,6 +38,15 @@ module.exports = {
           { loader: 'postcss-loader' },
           { loader: 'sass-loader' },
         ],
+      },
+      {
+        test: /\.(png|svg|jpg|gif|ico)$/,
+        use: {
+          loader: 'file-loader',
+          options: {
+            name: '[name].[ext]',
+          },
+        },
       },
     ],
   },
