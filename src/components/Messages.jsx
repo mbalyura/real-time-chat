@@ -2,10 +2,10 @@ import React from 'react';
 import { useSelector } from 'react-redux';
 
 const Messages = () => {
-  const messages = useSelector(({ messagesInfo }) => messagesInfo.messages);
-  const currentChannelId = useSelector(({ channelsInfo }) => channelsInfo.currentChannelId);
-
-  const currentMessages = messages.filter(({ channelId }) => channelId === currentChannelId);
+  const currentMessages = useSelector((store) => {
+    const { channelsInfo: { currentChannelId }, messagesInfo: { messages } } = store;
+    return messages.filter(({ channelId }) => channelId === currentChannelId);
+  });
 
   return (
     <div className="overflow-auto bg-light text-dark p-3 mb-3 h-100">
