@@ -1,9 +1,8 @@
 import React, { useContext, useEffect, useRef } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useFormik } from 'formik';
-
-import { Form, InputGroup } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
+import { Form, InputGroup } from 'react-bootstrap';
 
 import { addMessage } from '../slices/asyncActions';
 import NameContext from '../context';
@@ -26,15 +25,14 @@ const NewMessageForm = () => {
         userName,
         channelId,
       };
-      dispatch(addMessage(message));
-      resetForm({});
+      dispatch(addMessage(message)).then(() => resetForm({}));
     },
     initialValues: { text: '' },
   });
 
   return (
     <div className="mt-auto w-100">
-      <Form className="" onSubmit={formik.handleSubmit}>
+      <Form onSubmit={formik.handleSubmit}>
         <InputGroup>
           <InputGroup.Prepend>
             <InputGroup.Text id="inputGroupPrepend">
@@ -45,6 +43,7 @@ const NewMessageForm = () => {
           <Form.Control
             onChange={formik.handleChange}
             value={formik.values.text}
+            disabled={formik.isSubmitting}
             name="text"
             placeholder={t('placeholder')}
             ref={textInput}
