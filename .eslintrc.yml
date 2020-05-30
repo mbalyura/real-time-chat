@@ -17,9 +17,9 @@ settings:
 rules:
   # import/extensions: 0
   import/no-unresolved: 0 #gon
-  # react/prop-types: 0
+  react/prop-types: 0
   # react/static-property-placement: 0
   # react/prefer-stateless-function: 0
   # no-underscore-dangle: 0
-  # no-param-reassign: 0
+  no-param-reassign: 0
   no-console: 0
