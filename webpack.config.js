@@ -15,6 +15,9 @@ module.exports = {
     path: `${__dirname}/dist/public`,
     publicPath: '/assets/',
   },
+  externals: {
+    gon: 'gon',
+  },
   optimization: {
     splitChunks: {
       chunks: 'all',
