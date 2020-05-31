@@ -1,11 +1,12 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
-import { Spinner as BsSpinner } from 'react-bootstrap';
+import { Spinner as BootstrapSpinner } from 'react-bootstrap';
 
 const Spinner = () => {
-  const isLoading = useSelector(({ loadingInfo }) => loadingInfo.isLoading);
+  const isLoadingMessages = useSelector(({ messagesInfo }) => messagesInfo.isLoading);
+  const isLoadingChannels = useSelector(({ channelsInfo }) => channelsInfo.isLoading);
 
-  if (!isLoading) return null;
+  if (!isLoadingMessages && !isLoadingChannels) return null;
 
   const styles = {
     position: 'fixed',
@@ -15,7 +16,7 @@ const Spinner = () => {
   };
 
   return (
-    <BsSpinner style={styles} animation="grow" variant="dark" />
+    <BootstrapSpinner style={styles} animation="grow" variant="dark" />
   );
 };
 

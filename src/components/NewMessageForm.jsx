@@ -1,10 +1,12 @@
 import React, { useContext, useEffect, useRef } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
+import { unwrapResult } from '@reduxjs/toolkit';
 import { useFormik } from 'formik';
 import { useTranslation } from 'react-i18next';
 import { Form, InputGroup } from 'react-bootstrap';
 
-import { addMessage } from '../slices/asyncActions';
+import { showDangerToast } from '../toasts';
+import { asyncActions } from '../slices';
 import NameContext from '../context';
 
 const NewMessageForm = () => {
@@ -18,6 +20,8 @@ const NewMessageForm = () => {
 
   const { t } = useTranslation();
 
+  const { requestAddMessage } = asyncActions;
+
   const formik = useFormik({
     onSubmit: ({ text }, { resetForm }) => {
       const message = {
@@ -25,7 +29,10 @@ const NewMessageForm = () => {
         userName,
         channelId,
       };
-      dispatch(addMessage(message)).then(() => resetForm({}));
+      dispatch(requestAddMessage(message))
+        .then(unwrapResult)
+        .catch(() => showDangerToast('errors.message'))
+        .finally(() => resetForm({}));
     },
     initialValues: { text: '' },
   });

@@ -1,16 +1,26 @@
 import { combineReducers } from 'redux';
 
-import channelsInfo, { actions as channelsActions } from './channelsInfo';
-import messagesInfo, { actions as messagesActions } from './messagesInfo';
-import loadingInfo, { actions as loadingActions } from './loadingInfo';
+import channelsInfo, {
+  actions as channelsActions,
+  requestAddChannel,
+  requestRenameChannel,
+  requestRemoveChannel,
+} from './channelsInfo';
+import messagesInfo, { actions as messagesActions, requestAddMessage } from './messagesInfo';
 
-export default combineReducers({ channelsInfo, messagesInfo, loadingInfo });
+export default combineReducers({ channelsInfo, messagesInfo });
+
+export const asyncActions = {
+  requestAddChannel,
+  requestRenameChannel,
+  requestRemoveChannel,
+  requestAddMessage,
+};
 
 export const {
   addChannel,
-  removeChannel,
   renameChannel,
+  removeChannel,
   switchChannel,
   addMessage,
-  toggleLoadingState,
-} = { ...channelsActions, ...messagesActions, ...loadingActions };
+} = { ...channelsActions, ...messagesActions };

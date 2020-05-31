@@ -1,12 +1,14 @@
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-
+import { unwrapResult } from '@reduxjs/toolkit';
+import { useTranslation } from 'react-i18next';
 import { Row, Col, Button } from 'react-bootstrap';
 import { GoPlus, GoPencil, GoTrashcan } from 'react-icons/go';
-import { useTranslation } from 'react-i18next';
 
-import { addChannel, renameChannel, removeChannel } from '../slices/asyncActions';
+import { showSuccesToast, showDangerToast } from '../toasts';
+import { asyncActions } from '../slices';
 import getModal from './Modals';
+
 
 const ChannelsMenu = () => {
   const channels = useSelector(({ channelsInfo }) => channelsInfo.channels);
@@ -22,11 +24,24 @@ const ChannelsMenu = () => {
 
   const showModal = (type) => () => setModal({ type });
 
+  const { requestAddChannel, requestRenameChannel, requestRemoveChannel } = asyncActions;
+
   const updateChannels = (name) => {
     const mapModalTypeToActions = {
-      adding: () => dispatch(addChannel({ name })),
-      renaming: () => dispatch(renameChannel({ name, id: currentChannelId })),
-      removing: () => dispatch(removeChannel({ id: currentChannelId })),
+      adding: () => dispatch(requestAddChannel({ name }))
+        .then(unwrapResult)
+        .then(() => showSuccesToast('alerts.channelAdded'))
+        .catch(() => showDangerToast('errors.channelAdding')),
+
+      renaming: () => dispatch(requestRenameChannel({ name, id: currentChannelId }))
+        .then(unwrapResult)
+        .then(() => showSuccesToast('alerts.channelRenamed'))
+        .catch(() => showDangerToast('errors.channelRenaming')),
+
+      removing: () => dispatch(requestRemoveChannel({ id: currentChannelId }))
+        .then(unwrapResult)
+        .then(() => showDangerToast('alerts.channelRemoved'))
+        .catch(() => showDangerToast('errors.channelRemoving')),
     };
 
     mapModalTypeToActions[modal.type]();
