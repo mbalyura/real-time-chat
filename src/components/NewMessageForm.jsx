@@ -23,16 +23,20 @@ const NewMessageForm = () => {
   const { requestAddMessage } = asyncActions;
 
   const formik = useFormik({
-    onSubmit: ({ text }, { resetForm }) => {
+    onSubmit: async ({ text }, { resetForm }) => {
       const message = {
         text,
         userName,
         channelId,
       };
-      dispatch(requestAddMessage(message))
-        .then(unwrapResult)
-        .catch(() => showDangerToast('errors.message'))
-        .finally(() => resetForm({}));
+      try {
+        const result = await dispatch(requestAddMessage(message));
+        unwrapResult(result);
+      } catch (error) {
+        showDangerToast('errors.message');
+      } finally {
+        resetForm({});
+      }
     },
     initialValues: { text: '' },
   });

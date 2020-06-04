@@ -28,20 +28,35 @@ const ChannelsMenu = () => {
 
   const updateChannels = (name) => {
     const mapModalTypeToActions = {
-      adding: () => dispatch(requestAddChannel({ name }))
-        .then(unwrapResult)
-        .then(() => showSuccesToast('alerts.channelAdded'))
-        .catch(() => showDangerToast('errors.channelAdding')),
+      adding: async () => {
+        try {
+          const result = await dispatch(requestAddChannel({ name }));
+          unwrapResult(result);
+          showSuccesToast('alerts.channelAdded');
+        } catch (error) {
+          showDangerToast('errors.channelAdding');
+        }
+      },
 
-      renaming: () => dispatch(requestRenameChannel({ name, id: currentChannelId }))
-        .then(unwrapResult)
-        .then(() => showSuccesToast('alerts.channelRenamed'))
-        .catch(() => showDangerToast('errors.channelRenaming')),
+      renaming: async () => {
+        try {
+          const result = await dispatch(requestRenameChannel({ name, id: currentChannelId }));
+          unwrapResult(result);
+          showSuccesToast('alerts.channelRenamed');
+        } catch (error) {
+          showDangerToast('errors.channelRenaming');
+        }
+      },
 
-      removing: () => dispatch(requestRemoveChannel({ id: currentChannelId }))
-        .then(unwrapResult)
-        .then(() => showDangerToast('alerts.channelRemoved'))
-        .catch(() => showDangerToast('errors.channelRemoving')),
+      removing: async () => {
+        try {
+          const result = await dispatch(requestRemoveChannel({ id: currentChannelId }));
+          unwrapResult(result);
+          showDangerToast('alerts.channelRemoved');
+        } catch (error) {
+          showDangerToast('errors.channelRemoving');
+        }
+      },
     };
 
     mapModalTypeToActions[modal.type]();
