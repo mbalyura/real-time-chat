@@ -23,6 +23,7 @@ const slice = createSlice({
   reducers: {
     addMessage: (state, action) => {
       state.messages.push(action.payload.message);
+      state.isLoading = false;
     },
   },
   extraReducers: {
@@ -32,9 +33,6 @@ const slice = createSlice({
     },
     [requestAddMessage.pending]: (state) => {
       state.isLoading = true;
-    },
-    [requestAddMessage.fulfilled]: (state) => {
-      state.isLoading = false;
     },
     [requestAddMessage.rejected]: (state, action) => {
       state.isLoading = false;

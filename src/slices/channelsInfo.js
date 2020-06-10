@@ -41,14 +41,17 @@ const slice = createSlice({
     addChannel: (state, { payload: { channel } }) => {
       state.channels.push(channel);
       state.currentChannelId = channel.id;
+      state.isLoading = false;
     },
-    renameChannel: ({ channels }, { payload: { channel } }) => {
-      const channelToRename = channels.find((c) => c.id === channel.id);
+    renameChannel: (state, { payload: { channel } }) => {
+      const channelToRename = state.channels.find((c) => c.id === channel.id);
       channelToRename.name = channel.name;
+      state.isLoading = false;
     },
     removeChannel: (state, { payload: { channelId } }) => {
       state.channels = state.channels.filter((c) => c.id !== channelId);
       state.currentChannelId = 1;
+      state.isLoading = false;
     },
     switchChannel: (state, { payload: { id } }) => {
       state.currentChannelId = id;
@@ -58,9 +61,6 @@ const slice = createSlice({
     [requestAddChannel.pending]: (state) => {
       state.isLoading = true;
     },
-    [requestAddChannel.fulfilled]: (state) => {
-      state.isLoading = false;
-    },
     [requestAddChannel.rejected]: (state, action) => {
       state.isLoading = false;
       state.error = action.error;
@@ -68,18 +68,12 @@ const slice = createSlice({
     [requestRenameChannel.pending]: (state) => {
       state.isLoading = true;
     },
-    [requestRenameChannel.fulfilled]: (state) => {
-      state.isLoading = false;
-    },
     [requestRenameChannel.rejected]: (state, action) => {
       state.isLoading = false;
       state.error = action.error;
     },
     [requestRemoveChannel.pending]: (state) => {
       state.isLoading = true;
-    },
-    [requestRemoveChannel.fulfilled]: (state) => {
-      state.isLoading = false;
     },
     [requestRemoveChannel.rejected]: (state, action) => {
       state.isLoading = false;
