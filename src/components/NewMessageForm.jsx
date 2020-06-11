@@ -1,13 +1,13 @@
 import React, { useContext, useEffect, useRef } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
-import { unwrapResult } from '@reduxjs/toolkit';
+import { useSelector } from 'react-redux';
 import { useFormik } from 'formik';
 import { useTranslation } from 'react-i18next';
 import { Form, InputGroup } from 'react-bootstrap';
 
+import { addMessageRequest } from '../apiRequests';
 import { showDangerToast } from '../toasts';
-import { asyncActions } from '../slices';
 import NameContext from '../context';
+import Spinner from './Spinner';
 
 const NewMessageForm = () => {
   const channelId = useSelector(({ channelsInfo }) => channelsInfo.currentChannelId);
@@ -16,11 +16,7 @@ const NewMessageForm = () => {
   const textInput = useRef();
   useEffect(() => textInput.current.focus());
 
-  const dispatch = useDispatch();
-
   const { t } = useTranslation();
-
-  const { requestAddMessage } = asyncActions;
 
   const formik = useFormik({
     onSubmit: async ({ text }, { resetForm }) => {
@@ -30,8 +26,7 @@ const NewMessageForm = () => {
         channelId,
       };
       try {
-        const result = await dispatch(requestAddMessage(message));
-        unwrapResult(result);
+        await addMessageRequest(message);
       } catch (error) {
         showDangerToast('errors.message');
       } finally {
@@ -42,26 +37,29 @@ const NewMessageForm = () => {
   });
 
   return (
-    <div className="mt-auto w-100">
-      <Form onSubmit={formik.handleSubmit}>
-        <InputGroup>
-          <InputGroup.Prepend>
-            <InputGroup.Text id="inputGroupPrepend">
-              {userName}
-              :
-            </InputGroup.Text>
-          </InputGroup.Prepend>
-          <Form.Control
-            onChange={formik.handleChange}
-            value={formik.values.text}
-            disabled={formik.isSubmitting}
-            name="text"
-            placeholder={t('placeholder')}
-            ref={textInput}
-          />
-        </InputGroup>
-      </Form>
-    </div>
+    <>
+      <div className="mt-auto w-100">
+        <Form onSubmit={formik.handleSubmit}>
+          <InputGroup>
+            <InputGroup.Prepend>
+              <InputGroup.Text id="inputGroupPrepend">
+                {userName}
+                :
+              </InputGroup.Text>
+            </InputGroup.Prepend>
+            <Form.Control
+              onChange={formik.handleChange}
+              value={formik.values.text}
+              disabled={formik.isSubmitting}
+              name="text"
+              placeholder={t('placeholder')}
+              ref={textInput}
+            />
+          </InputGroup>
+        </Form>
+      </div>
+      {formik.isSubmitting && <Spinner />}
+    </>
   );
 };
 

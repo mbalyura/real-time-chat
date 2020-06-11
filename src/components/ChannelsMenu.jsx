@@ -1,37 +1,33 @@
 import React, { useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { unwrapResult } from '@reduxjs/toolkit';
+import { useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import { Row, Col, Button } from 'react-bootstrap';
 import { GoPlus, GoPencil, GoTrashcan } from 'react-icons/go';
 
+import { addChannelRequest, renameChannelRequest, removeChannelRequest } from '../apiRequests';
 import { showSuccesToast, showDangerToast } from '../toasts';
-import { asyncActions } from '../slices';
 import getModal from './Modals';
+import Spinner from './Spinner';
 
 
 const ChannelsMenu = () => {
   const channels = useSelector(({ channelsInfo }) => channelsInfo.channels);
   const currentChannelId = useSelector(({ channelsInfo }) => channelsInfo.currentChannelId);
 
-  const dispatch = useDispatch();
-
   const { t } = useTranslation();
 
   const [modal, setModal] = useState({ type: null });
+  const [isLoading, setLoading] = useState(false);
 
   const hideModal = () => setModal({ type: null });
 
   const showModal = (type) => () => setModal({ type });
 
-  const { requestAddChannel, requestRenameChannel, requestRemoveChannel } = asyncActions;
-
-  const updateChannels = (name) => {
-    const mapModalTypeToActions = {
+  const updateChannels = async (name) => {
+    const mapModalTypeToApiRequests = {
       adding: async () => {
         try {
-          const result = await dispatch(requestAddChannel({ name }));
-          unwrapResult(result);
+          await addChannelRequest({ name });
           showSuccesToast('alerts.channelAdded');
         } catch (error) {
           showDangerToast('errors.channelAdding');
@@ -40,8 +36,7 @@ const ChannelsMenu = () => {
 
       renaming: async () => {
         try {
-          const result = await dispatch(requestRenameChannel({ name, id: currentChannelId }));
-          unwrapResult(result);
+          await renameChannelRequest({ name, id: currentChannelId });
           showSuccesToast('alerts.channelRenamed');
         } catch (error) {
           showDangerToast('errors.channelRenaming');
@@ -50,17 +45,17 @@ const ChannelsMenu = () => {
 
       removing: async () => {
         try {
-          const result = await dispatch(requestRemoveChannel({ id: currentChannelId }));
-          unwrapResult(result);
+          await removeChannelRequest({ id: currentChannelId });
           showDangerToast('alerts.channelRemoved');
         } catch (error) {
           showDangerToast('errors.channelRemoving');
         }
       },
     };
-
-    mapModalTypeToActions[modal.type]();
+    setLoading(true);
     hideModal();
+    await mapModalTypeToApiRequests[modal.type]();
+    setLoading(false);
   };
 
   const currentChannel = channels.find(({ id }) => id === currentChannelId);
@@ -100,6 +95,7 @@ const ChannelsMenu = () => {
         </div>
       </Col>
       {renderModal()}
+      {isLoading && <Spinner />}
     </>
   );
 };

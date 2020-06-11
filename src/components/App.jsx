@@ -7,15 +7,14 @@ import ChannelsList from './ChannelsList';
 import ChannelsMenu from './ChannelsMenu';
 import Messages from './Messages';
 import NewMessageForm from './NewMessageForm';
-import Spinner from './Spinner';
 import Toaster from './Toaster';
 import { showSuccesToast, showDangerToast } from '../toasts';
 
 import {
-  addMessage,
-  addChannel,
-  renameChannel,
-  removeChannel,
+  addMessageSucces,
+  addChannelSucces,
+  renameChannelSucces,
+  removeChannelSucces,
 } from '../slices';
 
 const App = () => {
@@ -27,10 +26,10 @@ const App = () => {
     socket
       .on('connect', () => showSuccesToast('alerts.connected'))
       .on('disconnect', () => showDangerToast('alerts.disconnected'))
-      .on('newMessage', ({ data: { attributes } }) => dispatch(addMessage({ message: attributes })))
-      .on('newChannel', ({ data: { attributes } }) => dispatch(addChannel({ channel: attributes })))
-      .on('renameChannel', ({ data: { attributes } }) => dispatch(renameChannel({ channel: attributes })))
-      .on('removeChannel', ({ data: { id } }) => dispatch(removeChannel({ channelId: id })));
+      .on('newMessage', ({ data: { attributes } }) => dispatch(addMessageSucces({ message: attributes })))
+      .on('newChannel', ({ data: { attributes } }) => dispatch(addChannelSucces({ channel: attributes })))
+      .on('renameChannel', ({ data: { attributes } }) => dispatch(renameChannelSucces({ channel: attributes })))
+      .on('removeChannel', ({ data: { id } }) => dispatch(removeChannelSucces({ channelId: id })));
   });
 
   return (
@@ -49,7 +48,6 @@ const App = () => {
       </Row>
       <Row>
         <Toaster />
-        <Spinner />
       </Row>
     </>
   );
