@@ -11,12 +11,12 @@ const slice = createSlice({
       state.channels.push(channel);
       state.currentChannelId = channel.id;
     },
-    renameChannelSucces: (state, { payload: { channel } }) => {
-      const channelToRename = state.channels.find((c) => c.id === channel.id);
-      channelToRename.name = channel.name;
+    renameChannelSucces: (state, { payload: { channel: { id, name } } }) => {
+      const channelToRename = state.channels.find((c) => c.id === id);
+      channelToRename.name = name;
     },
-    removeChannelSucces: (state, { payload: { channelId } }) => {
-      state.channels = state.channels.filter((c) => c.id !== channelId);
+    removeChannelSucces: (state, { payload: { id } }) => {
+      state.channels = state.channels.filter((c) => c.id !== id);
       state.currentChannelId = 1;
     },
     switchChannel: (state, { payload: { id } }) => {

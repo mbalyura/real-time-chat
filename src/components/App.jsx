@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
-import io from 'socket.io-client';
+import socket from 'socket.io-client';
 import { Row, Col } from 'react-bootstrap';
 
 import ChannelsList from './ChannelsList';
@@ -20,16 +20,14 @@ import {
 const App = () => {
   const dispatch = useDispatch();
 
-  const socket = io();
-
   useEffect(() => {
-    socket
+    socket()
       .on('connect', () => showSuccesToast('alerts.connected'))
       .on('disconnect', () => showDangerToast('alerts.disconnected'))
       .on('newMessage', ({ data: { attributes } }) => dispatch(addMessageSucces({ message: attributes })))
       .on('newChannel', ({ data: { attributes } }) => dispatch(addChannelSucces({ channel: attributes })))
       .on('renameChannel', ({ data: { attributes } }) => dispatch(renameChannelSucces({ channel: attributes })))
-      .on('removeChannel', ({ data: { id } }) => dispatch(removeChannelSucces({ channelId: id })));
+      .on('removeChannel', ({ data: { id } }) => dispatch(removeChannelSucces({ id })));
   });
 
   return (
