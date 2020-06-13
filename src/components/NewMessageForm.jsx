@@ -27,10 +27,9 @@ const NewMessageForm = () => {
       };
       try {
         await addMessageRequest(message);
+        resetForm({});
       } catch (error) {
         showDangerToast('errors.message');
-      } finally {
-        resetForm({});
       }
     },
     initialValues: { text: '' },
