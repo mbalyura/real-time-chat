@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import { Row, Col, Button } from 'react-bootstrap';
 import { GoPlus, GoPencil, GoTrashcan } from 'react-icons/go';
 
 import { addChannelRequest, renameChannelRequest, removeChannelRequest } from '../apiRequests';
 import { showSuccesToast, showDangerToast } from '../toasts';
+import { setModal } from '../slices';
 import getModal from './Modals';
 import Spinner from './Spinner';
 
@@ -13,15 +14,17 @@ import Spinner from './Spinner';
 const ChannelsMenu = () => {
   const channels = useSelector(({ channelsInfo }) => channelsInfo.channels);
   const currentChannelId = useSelector(({ channelsInfo }) => channelsInfo.currentChannelId);
+  const activeModalType = useSelector(({ modalsInfo }) => modalsInfo.activeModal);
 
   const { t } = useTranslation();
 
-  const [modal, setModal] = useState({ type: null });
+  const dispatch = useDispatch();
+
   const [isLoading, setLoading] = useState(false);
 
-  const hideModal = () => setModal({ type: null });
+  const hideModal = () => dispatch(setModal({ activeModal: null }));
 
-  const showModal = (type) => () => setModal({ type });
+  const showModal = (type) => () => dispatch(setModal({ activeModal: type }));
 
   const updateChannels = async (name) => {
     const mapModalTypeToApiRequests = {
@@ -54,15 +57,15 @@ const ChannelsMenu = () => {
     };
     setLoading(true);
     hideModal();
-    await mapModalTypeToApiRequests[modal.type]();
+    await mapModalTypeToApiRequests[activeModalType]();
     setLoading(false);
   };
 
   const currentChannel = channels.find(({ id }) => id === currentChannelId);
 
   const renderModal = () => {
-    if (!modal.type) return null;
-    const Modal = getModal(modal.type);
+    if (!activeModalType) return null;
+    const Modal = getModal(activeModalType);
     return (
       <Modal
         updateChannels={updateChannels}
