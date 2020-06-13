@@ -1,11 +1,10 @@
-import { configureStore } from '@reduxjs/toolkit';
+import { configureStore, getDefaultMiddleware } from '@reduxjs/toolkit';
 import logger from 'redux-logger';
-import thunk from 'redux-thunk';
 
 export default (reducer, preloadedState) => {
   const isDevelop = process.env.NODE_ENV !== 'production';
 
-  const middleware = [thunk];
+  const middleware = getDefaultMiddleware();
 
   if (isDevelop) middleware.push(logger);
 
