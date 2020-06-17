@@ -2,8 +2,7 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { Modal, Button } from 'react-bootstrap';
 
-export default function Remove(props) {
-  const { hideModal, updateChannels, currentChannel } = props;
+const Remove = ({ hideModal, updateChannels, currentChannel }) => {
   const { t } = useTranslation();
 
   return (
@@ -22,4 +21,6 @@ export default function Remove(props) {
       </Modal.Body>
     </Modal>
   );
-}
+};
+
+export default Remove;

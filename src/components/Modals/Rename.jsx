@@ -8,9 +8,7 @@ import {
   Button,
 } from 'react-bootstrap';
 
-export default function Rename(props) {
-  const { hideModal, updateChannels, currentChannel } = props;
-
+const Rename = ({ hideModal, updateChannels, currentChannel }) => {
   const inputRef = useRef();
   useEffect(() => inputRef.current.focus());
 
@@ -45,4 +43,6 @@ export default function Rename(props) {
       </Modal.Body>
     </Modal>
   );
-}
+};
+
+export default Rename;

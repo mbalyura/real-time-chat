@@ -8,9 +8,7 @@ import {
   Button,
 } from 'react-bootstrap';
 
-export default function Add(props) {
-  const { hideModal, updateChannels } = props;
-
+const Add = ({ hideModal, updateChannels }) => {
   const inputRef = useRef();
   useEffect(() => inputRef.current.focus());
 
@@ -46,4 +44,6 @@ export default function Add(props) {
       </Modal.Body>
     </Modal>
   );
-}
+};
+
+export default Add;
