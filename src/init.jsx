@@ -8,12 +8,12 @@ import './i18n';
 import gon from 'gon';
 
 import rootReducer, {
-  addMessageSucces,
-  addChannelSucces,
-  renameChannelSucces,
-  removeChannelSucces,
+  addMessageSuccess,
+  addChannelSuccess,
+  renameChannelSuccess,
+  removeChannelSuccess,
 } from './slices';
-import { showSuccesToast, showDangerToast } from './toasts';
+import { showSuccessToast, showDangerToast } from './toasts';
 import NameContext from './context';
 import configStore from './configStore';
 import App from './components/App';
@@ -35,12 +35,12 @@ export default () => {
   const { dispatch } = store;
 
   socket()
-    .on('connect', () => showSuccesToast('alerts.connected'))
+    .on('connect', () => showSuccessToast('alerts.connected'))
     .on('disconnect', () => showDangerToast('alerts.disconnected'))
-    .on('newMessage', ({ data: { attributes } }) => dispatch(addMessageSucces({ message: attributes })))
-    .on('newChannel', ({ data: { attributes } }) => dispatch(addChannelSucces({ channel: attributes })))
-    .on('renameChannel', ({ data: { attributes } }) => dispatch(renameChannelSucces({ channel: attributes })))
-    .on('removeChannel', ({ data: { id } }) => dispatch(removeChannelSucces({ id })));
+    .on('newMessage', ({ data: { attributes } }) => dispatch(addMessageSuccess({ message: attributes })))
+    .on('newChannel', ({ data: { attributes } }) => dispatch(addChannelSuccess({ channel: attributes })))
+    .on('renameChannel', ({ data: { attributes } }) => dispatch(renameChannelSuccess({ channel: attributes })))
+    .on('removeChannel', ({ data: { id } }) => dispatch(removeChannelSuccess({ id })));
 
   ReactDOM.render(
     <Provider store={store}>

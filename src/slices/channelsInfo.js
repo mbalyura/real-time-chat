@@ -7,15 +7,15 @@ const slice = createSlice({
     currentChannelId: 1,
   },
   reducers: {
-    addChannelSucces: (state, { payload: { channel } }) => {
+    addChannelSuccess: (state, { payload: { channel } }) => {
       state.channels.push(channel);
       state.currentChannelId = channel.id;
     },
-    renameChannelSucces: (state, { payload: { channel: { id, name } } }) => {
+    renameChannelSuccess: (state, { payload: { channel: { id, name } } }) => {
       const channelToRename = state.channels.find((c) => c.id === id);
       channelToRename.name = name;
     },
-    removeChannelSucces: (state, { payload: { id } }) => {
+    removeChannelSuccess: (state, { payload: { id } }) => {
       state.channels = state.channels.filter((c) => c.id !== id);
       state.currentChannelId = 1;
     },

@@ -5,7 +5,7 @@ import { Row, Col, Button } from 'react-bootstrap';
 import { GoPlus, GoPencil, GoTrashcan } from 'react-icons/go';
 
 import { addChannelRequest, renameChannelRequest, removeChannelRequest } from '../apiRequests';
-import { showSuccesToast, showDangerToast } from '../toasts';
+import { showSuccessToast, showDangerToast } from '../toasts';
 import { setModal } from '../slices';
 import getModal from './Modals';
 import Spinner from './Spinner';
@@ -31,7 +31,7 @@ const ChannelsMenu = () => {
       adding: async () => {
         try {
           await addChannelRequest({ name });
-          showSuccesToast('alerts.channelAdded');
+          showSuccessToast('alerts.channelAdded');
         } catch (error) {
           showDangerToast('errors.channelAdding');
         }
@@ -40,7 +40,7 @@ const ChannelsMenu = () => {
       renaming: async () => {
         try {
           await renameChannelRequest({ name, id: currentChannelId });
-          showSuccesToast('alerts.channelRenamed');
+          showSuccessToast('alerts.channelRenamed');
         } catch (error) {
           showDangerToast('errors.channelRenaming');
         }

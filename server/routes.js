@@ -1,6 +1,6 @@
-import _ from 'lodash';
+import uniqueId from 'lodash/uniqueId';
 
-const getNextId = () => Number(_.uniqueId());
+const getNextId = () => Number(uniqueId());
 
 const buildState = (defaultState) => {
   const generalChannelId = getNextId();
@@ -39,7 +39,7 @@ export default (app, io, defaultState = {}) => {
 
   app
     .get('/', (_req, reply) => {
-      reply.view('index.pug', { gon: state }); // ! механизм передачи данных с бекенда на фронтенд через html, который формируется на бекенде
+      reply.view('index.pug', { gon: state });
     })
 
     .get('/api/v1/channels', (_req, reply) => {

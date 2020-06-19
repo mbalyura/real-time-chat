@@ -8,12 +8,12 @@ const slice = createSlice({
     messages: [],
   },
   reducers: {
-    addMessageSucces: (state, { payload: { message } }) => {
+    addMessageSuccess: (state, { payload: { message } }) => {
       state.messages.push(message);
     },
   },
   extraReducers: {
-    [channelsActions.removeChannelSucces]: (state, { payload: { id } }) => {
+    [channelsActions.removeChannelSuccess]: (state, { payload: { id } }) => {
       state.messages = state.messages.filter((m) => m.channelId !== id);
     },
   },

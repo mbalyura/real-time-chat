@@ -7,10 +7,10 @@ import modalsInfo, { actions as modalsActions } from './modalsInfo';
 export default combineReducers({ channelsInfo, messagesInfo, modalsInfo });
 
 export const {
-  addMessageSucces,
-  addChannelSucces,
-  renameChannelSucces,
-  removeChannelSucces,
+  addMessageSuccess,
+  addChannelSuccess,
+  renameChannelSuccess,
+  removeChannelSuccess,
   switchChannel,
   setModal,
 } = { ...channelsActions, ...messagesActions, ...modalsActions };
