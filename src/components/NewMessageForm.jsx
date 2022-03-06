@@ -37,7 +37,7 @@ const NewMessageForm = () => {
 
   return (
     <>
-      <div className="mt-auto w-100">
+      <div className="pt-3 w-100">
         <Form onSubmit={formik.handleSubmit}>
           <InputGroup>
             <InputGroup.Prepend>

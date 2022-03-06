@@ -86,7 +86,7 @@ const ChannelsMenu = () => {
         </Row>
       </Col>
       <Col md={9}>
-        <div className="d-flex flex-row justify-content-end">
+        <div className="d-flex justify-content-end">
           <h4 className="my-2 mr-4">
             #&nbsp;
             {name}

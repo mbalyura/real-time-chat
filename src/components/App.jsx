@@ -10,7 +10,7 @@ import Toaster from './Toaster';
 
 const App = () => (
   <>
-    <Row className="mt-5">
+    <Row>
       <ChannelsMenu />
     </Row>
     <Row className="h-75">

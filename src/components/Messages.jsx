@@ -8,7 +8,7 @@ const Messages = () => {
   });
 
   return (
-    <div className="overflow-auto bg-light text-dark p-3 mb-3 h-100">
+    <div className="overflow-auto bg-light text-dark p-3 h-100">
       {currentMessages
         && currentMessages.map(({ text, id, userName }) => (
           <div key={id}>
