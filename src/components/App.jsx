@@ -7,7 +7,6 @@ import Messages from './Messages';
 import NewMessageForm from './NewMessageForm';
 import Toaster from './Toaster';
 
-
 const App = () => (
   <>
     <Row>

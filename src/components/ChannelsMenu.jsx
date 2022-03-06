@@ -10,7 +10,6 @@ import { setModal } from '../slices';
 import getModal from './Modals';
 import Spinner from './Spinner';
 
-
 const ChannelsMenu = () => {
   const channels = useSelector(({ channelsInfo }) => channelsInfo.channels);
   const currentChannelId = useSelector(({ channelsInfo }) => channelsInfo.currentChannelId);

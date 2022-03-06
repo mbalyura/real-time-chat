@@ -33,7 +33,6 @@ const setUpStaticAssets = (app) => {
   });
 };
 
-
 export default (options) => {
   const logger = { logger: { prettyPrint: { colorize: true } } };
 
